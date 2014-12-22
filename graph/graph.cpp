@@ -30,11 +30,12 @@ namespace AnCO {
             std::vector<graph_data::edge> edges_out, edges_in;
             _data.node_edges_outgoing(node_id, edges_out);
             _data.node_edges_incoming(node_id, edges_in);
+            this->add_node(node_id);
             std::for_each(edges_out.begin(), edges_out.end(), [this, &node_id, &edges](graph_data::edge& item) {
                 assert(node_id.compare(item.first)==0);
+                this->add_node(item.second);
                 auto ret = this->add_edge(item.first, item.second);
-                // Lo creo y luego lo busco :S (pero así puedo contar llamadas a la BD)
-                edges.first.push_back(this->get_edge(item.first, item.second));                
+                // Lo creo y luego lo busco :S (pero así puedo contar llamadas a la BD)                
                 });  
             }
         return this->_t_graph::get_edges(node_id, edges);

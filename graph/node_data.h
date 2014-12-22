@@ -3,7 +3,9 @@
 namespace AnCO {
     
     struct node_data {
-        std::string _id;
+        std::string id;
+        float value;
+        float value2;
         };
 
     }

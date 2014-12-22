@@ -10,7 +10,9 @@
 
 namespace AnCO {
 
-    typedef ::graph::graph<node_data, edge_data, std::string> _t_graph;  
+    typedef ::graph::graph<node_data, edge_data, std::string> _t_graph;
+    typedef _t_graph::node_ptr node_ptr;
+    typedef _t_graph::edge_ptr edge_ptr;
 
     class graph : public _t_graph {
         public:
