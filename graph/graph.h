@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "jgsogo/graph/graph.h"
 
 #include "node_data.h"
@@ -11,7 +13,7 @@ namespace AnCO {
 
         };
 
-    typedef graph::graph<node_data, edge_data, std::string> _t_graph;  
+    typedef ::graph::graph<node_data, edge_data, std::string> _t_graph;  
 
     class graph : public _t_graph {
         public:
