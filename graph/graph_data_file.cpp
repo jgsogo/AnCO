@@ -19,8 +19,10 @@ namespace AnCO {
         while(std::getline(infile, line)) {
             std::istringstream ss(line);
             if (ss >> n1 >> n2) {
-                _edges.insert(std::make_pair(n1, n2));
-                _edges_flip.insert(std::make_pair(n2, n1));
+                if (n1 != n2) { //! Don't want edges over itself
+                    _edges.insert(std::make_pair(n1, n2));
+                    _edges_flip.insert(std::make_pair(n2, n1));
+                    }
                 if (counter++ % 10000 == 0) {
                     std::cout << counter << " edges so far" << std::endl;
                     }

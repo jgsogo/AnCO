@@ -11,6 +11,10 @@ ELSEIF (WIN32 OR UNIX)
    TARGET_COMPILE_OPTIONS(${BII_BLOCK_TARGET} INTERFACE "-std=c++11")
 ENDIF(APPLE)
 
+add_definitions(-DN_COLONIES=2)
+add_definitions(-DN_ANTS_PER_COLONY=1)
+
+
 # You can safely delete lines from here...
 
 ###############################################################################

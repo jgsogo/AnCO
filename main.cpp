@@ -10,21 +10,31 @@
 #include <iostream>
 
 #include "graph/graph.h"
-//#include "graph/graph_sqlite3.h"
 #include "graph/graph_data_file.h"
 #include "graph/log.h"
+
+#include "colony/colony.h"
 
 using namespace AnCO;
 
 int main() {
     std::cout << "AnCO\n";
     std::cout << "1) Create access to graph dataset" << std::endl;
-    //graph_sqlite3 dataset("mydb.sqlite3");
-    graph_data_file dataset("../data/Slashdot0902.txt");
+    //graph_data_file dataset("../data/Slashdot0902.txt");
+    graph_data_file dataset("../data/facebook_combined.txt");
+    
     dataset.load_file();
 
-    std::cout << "2) Make graph available on memory" << std::endl;
+    std::cout << "2) Make graph available" << std::endl;
     AnCO::graph graph(dataset);
+
+    std::cout << "2) Play with a colony" << std::endl;
+    colony col1(graph, 0);
+    col1.configure("25");
+
+    while(true) {
+        col1.run();
+        }
 
     AnCO::node_ptr n25 = graph.get_node("25");
     std::cout << n25 << std::endl;
