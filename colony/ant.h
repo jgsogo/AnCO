@@ -2,7 +2,6 @@
 #pragma once
 
 #include "../graph/graph.h"
-#include "colony.h"
 #include "success.h"
 
 namespace AnCO {
