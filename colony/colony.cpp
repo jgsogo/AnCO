@@ -41,12 +41,24 @@ namespace AnCO {
         return edges.size();
         }
 
-    void colony::on_ant_success(ant& ant_) {
-        std::cout << "Success! " << ant_._path << std::endl;
-        }
-
-    void colony::on_ant_failed(ant& ant_) {
-        std::cout << "Failed! " << ant_._path << std::endl;
+    void colony::on_ant_finished(ant& ant_) {
+        // 1) Compute neighbourhood: buscamos feromonas por encima de cierto nivel.
+        float min_other_pheromone = 0.5f;
+        
+        //      Mínima distancia entre un nodo y el hormiguero
+        std::map<graph::_t_node_id, int> distance_to_node;
+        std::vector<edge_ptr>::iterator it = ant_._path.begin();
+        distance_to_node.insert(std::make_pair((*it)->init, 0));
+        
+        int current_distance = 1;
+        std::map<graph::_t_node_id, int>::iterator it_node;
+        bool inserted;
+        while (it != ant_._path.end()) {
+            std::tie(it_node, inserted) = distance_to_node.insert(std::make_pair( (*it)->end, current_distance));
+            current_distance = it_node->second + 1;
+            ++it;
+            }
+        
         ant_.reset();
         ant_.place(_base_node);
         }

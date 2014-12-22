@@ -7,10 +7,11 @@
 namespace AnCO {
 
     ant::ant(colony& colony_) : _colony(colony_), _max_steps(100) {
-        _success = success();
+        this->reset();
         }
 
     void ant::reset() {
+        _success = success();
         _path.clear();
         }
 
@@ -42,10 +43,7 @@ namespace AnCO {
                 _current_node = next_edge->end;
                 
                 if (_success(next_edge)) {
-                    _colony.on_ant_success(*this);
-                    }
-                else if (_path.size() > _max_steps) {
-                    _colony.on_ant_failed(*this);
+                    _colony.on_ant_finished(*this);
                     }
 
                 }

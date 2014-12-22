@@ -19,8 +19,7 @@ namespace AnCO {
             // to be called by its ants
             float get_random(const float& max = 1.f) const;
             int get_edges_outgoing(const graph::_t_node_id& id, std::vector<edge_ptr>& edges) const;
-            void on_ant_success(ant& ant_);
-            void on_ant_failed(ant& ant_);
+            void on_ant_finished(ant& ant_);
 
         protected:
             std::shared_ptr<ant> _ants[GLOBALS::n_ants_per_colony];

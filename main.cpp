@@ -32,10 +32,16 @@ int main() {
     colony col1(graph, 0);
     col1.configure("25");
 
-    while(true) {
+    colony col2(graph, 1);
+    col2.configure("100");
+
+    int i = 1000;
+    while(i--) {
         col1.run();
+        col2.run();
         }
 
+    /*
     AnCO::node_ptr n25 = graph.get_node("25");
     std::cout << n25 << std::endl;
     n25->data.value = 25;
@@ -47,6 +53,7 @@ int main() {
     graph.get_edges(n25->id, edges25);
     std::cout << n25 << " edges:" << std::endl;
     std::for_each(edges25.first.begin(), edges25.first.end(), [](AnCO::edge_ptr& ptr) {std::cout << "\t" << ptr << std::endl;});
-
+    */
+    std::cout << "Done" << std::endl;
     getchar();
 }
