@@ -14,6 +14,24 @@ ENDIF(APPLE)
 add_definitions(-DN_COLONIES=2)
 add_definitions(-DN_ANTS_PER_COLONY=1)
 
+# Add graph subdirectory
+SOURCE_GROUP("Header Files\\graph" FILES    graph/edge_data.h
+                                            graph/graph.h
+                                            graph/graph_data.h
+                                            graph/graph_data_file.h
+                                            graph/graph_sqlite3.h
+                                            graph/node_data.h)
+SOURCE_GROUP("Source Files\\graph" FILES    graph/graph.cpp
+                                            graph/graph_data_file.cpp
+                                            graph/graph_sqlite3.cpp)
+
+# Add colony subdirectory
+SOURCE_GROUP("Header Files\\colony" FILES   colony/ant.h
+                                            colony/colony.h
+                                            colony/success.h)
+SOURCE_GROUP("Source Files\\colony" FILES   colony/ant.cpp
+                                            colony/colony.cpp)
+
 
 # You can safely delete lines from here...
 

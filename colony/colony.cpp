@@ -2,7 +2,7 @@
 
 #include "colony.h"
 
-#include "../graph/log.h"
+#include "../log.h"
 
 
 namespace AnCO {

@@ -11,7 +11,7 @@
 
 #include "graph/graph.h"
 #include "graph/graph_data_file.h"
-#include "graph/log.h"
+#include "log.h"
 
 #include "colony/colony.h"
 

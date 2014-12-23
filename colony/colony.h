@@ -3,7 +3,7 @@
 
 #include "../graph/graph.h"
 #include "ant.h"
-#include "globals.h"
+#include "../globals.h"
 
 namespace AnCO {
 

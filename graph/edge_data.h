@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../colony/globals.h"
+#include "../globals.h"
 
 namespace AnCO {
     
