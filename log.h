@@ -2,6 +2,7 @@
 #pragma once
 
 #include <iostream>
+#include <array>
 #include "graph/graph.h"
 
 
@@ -29,4 +30,12 @@ namespace AnCO {
         return os;
         }
 
+    template <class T, int N>
+    inline std::ostream& operator<<(std::ostream& os, const std::array<T, N>& obj) {
+        os << "|";
+        for (int i = 0; i<N; ++i) {
+            os << " " << obj[i] << " |";
+            }
+        return os;
+        }
     }

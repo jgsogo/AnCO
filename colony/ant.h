@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <set>
 #include "../graph/graph.h"
 #include "success.h"
 
@@ -9,23 +10,20 @@ namespace AnCO {
     class colony;
 
     class ant {
-        friend class colony;
         public:
-            ant(colony& colony_);
+            ant(colony& colony, const float& alpha, const float& beta);
 
-            void reset();
-            void place(graph::_t_node_id& node);
-            void set_success_f(success& suc);
+            bool run(   const graph::_t_node_id& node, 
+                        success& suc, 
+                        std::vector<edge_ptr>& _path, 
+                        std::set<graph::_t_node_id>& visited = std::set<graph::_t_node_id>(), 
+                        const int& max_steps = 100);
+        protected:
+            virtual float prob_edge(const edge_ptr& ptr);
 
-            void run(const int& n_steps = 1);
-            
-            const success& get_success_f() const { return _success;};
         protected:
             colony& _colony;
-            std::vector<edge_ptr> _path;
-            graph::_t_node_id _current_node;
-            success _success;
-            const float _max_steps;
+            float alpha, beta;
         };
 
     }

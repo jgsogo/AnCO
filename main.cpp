@@ -29,16 +29,26 @@ int main() {
     AnCO::graph graph(dataset);
 
     std::cout << "2) Play with a colony" << std::endl;
-    colony col1(graph, 0);
-    col1.configure("25");
-
-    colony col2(graph, 1);
-    col2.configure("100");
+    colony col1(graph);
+    col1.set_base_node("25");
+    
+    colony col2(graph);
+    col2.set_base_node("100");
 
     int i = 1000;
     while(i--) {
+        std::cout << "\nIteration " << i << std::endl;
         col1.run();
         col2.run();
+
+        col1.update();
+        col2.update();
+
+        col1.update_pheromone();
+        col2.update_pheromone();
+
+        std::cout << "col1-neighbours: " << col1.get_proximity_colonies() << std::endl;
+        //std::cout << "col2-neighbours: " << col2.get_proximity_colonies() << std::endl;
         }
 
     /*
