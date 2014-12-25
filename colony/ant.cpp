@@ -12,8 +12,9 @@ namespace AnCO {
     bool ant::run(const graph::_t_node_id& node, 
                 success& suc, 
                 std::vector<edge_ptr>& _path, 
-                std::set<graph::_t_node_id>& visited, 
+                //std::set<graph::_t_node_id>& visited, 
                 const int& max_steps) {
+        std::set<graph::_t_node_id> visited;
         graph::_t_node_id current_node = node;
         visited.insert(current_node);
         int step = 0;

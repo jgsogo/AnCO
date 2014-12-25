@@ -8,6 +8,7 @@
  */
 
 #include <iostream>
+#include <iterator>
 
 #include "graph/graph.h"
 #include "graph/graph_data_file.h"
@@ -47,7 +48,10 @@ int main() {
         col1.update_pheromone();
         col2.update_pheromone();
 
-        std::cout << "col1-neighbours: " << col1.get_proximity_colonies() << std::endl;
+        auto v = col1.get_proximity_colonies();
+        std::cout << "col1-neighbours: ";
+        std::copy(begin(v), end(v), std::ostream_iterator<int>(std::cout, " "));
+        std::cout << std::endl;
         //std::cout << "col2-neighbours: " << col2.get_proximity_colonies() << std::endl;
         }
 

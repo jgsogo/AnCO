@@ -1,5 +1,6 @@
 
 
+#include <stdexcept>
 #include "colony.h"
 
 #include "../log.h"
@@ -17,7 +18,7 @@ namespace AnCO {
         _proximity_decay_factor = 0.5f; // coeficiente de actualización de la distancia a otro hormiguero.
         _gamma = 1.f;
         _delta = 1.f;
-        if (next_id > GLOBALS::n_colonies) { throw std::exception("Max num of colonies reached; change N_COLONIES definition");}
+        if (next_id > GLOBALS::n_colonies) { throw std::runtime_error("Max num of colonies reached; change N_COLONIES definition");}
         }
 
     colony::~colony() {}
@@ -28,7 +29,8 @@ namespace AnCO {
         for (std::size_t i = 0; i < GLOBALS::n_ants_per_colony; ++i) {
             //std::cout << "\tant[" << i << "]::run";
             _ant_paths[i].clear();
-            bool ret = ant(*this, _alpha, _beta).run(_base_node, success(), _ant_paths[i]);
+            success suc;
+            bool ret = ant(*this, _alpha, _beta).run(_base_node, suc, _ant_paths[i]);
             if (ret) {
                 std::cout << "Col[" << _id << "] Ant[" << i << "] Succeded!!" << std::endl;
                 }
