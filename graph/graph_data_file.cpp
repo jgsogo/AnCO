@@ -56,7 +56,7 @@ namespace AnCO {
         return edges.size();
         }
 
-    const std::string& graph_data_file::get_node_random() {
+    const std::string& graph_data_file::get_node_random() const {
         std::size_t r = std::rand()*_nodes.size()/RAND_MAX;
         std::set<std::string>::const_iterator it(_nodes.begin());
         std::advance(it, r);

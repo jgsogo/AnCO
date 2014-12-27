@@ -11,7 +11,7 @@
 #include <iterator>
 #include <iomanip>
 
-#include "graph/graph.h"
+#include "graph/memgraph.h"
 #include "graph/graph_data_file.h"
 #include "log.h"
 
@@ -30,7 +30,7 @@ int main() {
     dataset.load_file();
 
     std::cout << "2) Make graph available " << std::endl;
-    AnCO::graph graph(dataset);
+    AnCO::memgraph graph(dataset);
 
     std::cout << "2) Create '" << GLOBALS::n_colonies << "' resident colonies" << std::endl;
     std::array<std::shared_ptr<colony>, GLOBALS::n_colonies> colonies;

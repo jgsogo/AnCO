@@ -12,7 +12,7 @@ namespace AnCO {
         }
 
     _t_graph::node_ptr graph::get_node_random() {
-        
+
         }
     _t_graph::node_ptr graph::get_node(const _t_node_id& node_id, const bool& cached) {
         if (!cached) {
@@ -29,7 +29,7 @@ namespace AnCO {
         }
 
     int graph::get_edges(const _t_node_id& node_id, std::pair<std::vector<edge_ptr>, std::vector<edge_ptr>>& edges, const bool& cached) {
-        this->get_node(node_id, cached); // just to check if it exists.
+        //this->get_node(node_id, cached); // just to check if it exists.
         if (!cached) {
             std::vector<graph_data::edge> edges_out, edges_in;
             _data.node_edges_outgoing(node_id, edges_out);
@@ -50,6 +50,4 @@ namespace AnCO {
         return this->_t_graph::get_edges(node_id, edges);
         }
     
-    //int graph::get_edges_outgoing(const _t_node_id& node_id, std::vector<edge_ptr>& edges, const bool& cached) {
-
     }
