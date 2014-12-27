@@ -11,6 +11,9 @@ namespace AnCO {
     graph::~graph() {
         }
 
+    _t_graph::node_ptr graph::get_node_random() {
+        
+        }
     _t_graph::node_ptr graph::get_node(const _t_node_id& node_id, const bool& cached) {
         if (!cached) {
             if (_data.node_exists(node_id)) {

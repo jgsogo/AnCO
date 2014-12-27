@@ -11,8 +11,8 @@ ELSEIF (WIN32 OR UNIX)
    TARGET_COMPILE_OPTIONS(${BII_BLOCK_TARGET} INTERFACE "-std=c++11")
 ENDIF(APPLE)
 
-add_definitions(-DN_COLONIES=2)
-add_definitions(-DN_ANTS_PER_COLONY=10)
+add_definitions(-DN_COLONIES=4)
+add_definitions(-DN_ANTS_PER_COLONY=20)
 
 # Add graph subdirectory
 SOURCE_GROUP("Header Files\\graph" FILES    graph/edge_data.h

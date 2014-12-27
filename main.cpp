@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <iterator>
+#include <iomanip>
 
 #include "graph/graph.h"
 #include "graph/graph_data_file.h"
@@ -19,40 +20,49 @@
 using namespace AnCO;
 
 int main() {
+    std::cout << "======" << std::endl;
     std::cout << "AnCO\n";
-    std::cout << "1) Create access to graph dataset" << std::endl;
-    //graph_data_file dataset("../data/Slashdot0902.txt");
-    graph_data_file dataset("../data/facebook_combined.txt");
+    std::cout << "======" << std::endl << std::endl;
+    std::cout << "1) Graph dataset from file" << std::endl;
+    graph_data_file dataset("data/Slashdot0902.txt");
+    //graph_data_file dataset("data/facebook_combined.txt");
     
     dataset.load_file();
 
-    std::cout << "2) Make graph available" << std::endl;
+    std::cout << "2) Make graph available " << std::endl;
     AnCO::graph graph(dataset);
 
-    std::cout << "2) Play with a colony" << std::endl;
-    colony col1(graph);
-    col1.set_base_node("25");
-    
-    colony col2(graph);
-    col2.set_base_node("100");
+    std::cout << "2) Create '" << GLOBALS::n_colonies << "' resident colonies" << std::endl;
+    std::array<std::shared_ptr<colony>, GLOBALS::n_colonies> colonies;
+    std::for_each(colonies.begin(), colonies.end(), [&graph, &dataset](std::shared_ptr<colony>& col){
+        col = std::make_shared<colony>(graph);
+        const std::string& id_node = dataset.get_node_random();
+        std::cout << "\tcol[" << col->get_id() << "]::base_node = " << id_node << std::endl;
+        col->set_base_node(id_node);
+        });
 
+    std::cout << "3) Build metagraph" << std::endl;
     int i = 1000;
-    while(i--) {
-        std::cout << "\nIteration " << i << std::endl;
-        col1.run();
-        col2.run();
+    while(i--) {        
+        std::cout << "\tIteration " << i << std::endl;
+        std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony>& ptr){ ptr->run();});
+        std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony>& ptr){ ptr->update();});
+        std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony>& ptr){ ptr->update_pheromone();});
 
-        col1.update();
-        col2.update();
-
-        col1.update_pheromone();
-        col2.update_pheromone();
-
+        std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony>& ptr){
+            auto v = ptr->get_proximity_colonies();
+            std::cout << "\t - col[" << ptr->get_id() << "]::neighbours:\t";
+            std::cout << std::fixed << std::setprecision( 6 );
+            std::copy(begin(v), end(v), std::ostream_iterator<float>(std::cout, "\t"));
+            std::cout << std::endl;
+            });
+        /*
         auto v = col1.get_proximity_colonies();
         std::cout << "col1-neighbours: ";
-        std::copy(begin(v), end(v), std::ostream_iterator<int>(std::cout, " "));
+        std::copy(begin(v), end(v), std::ostream_iterator<float>(std::cout, " "));
         std::cout << std::endl;
         //std::cout << "col2-neighbours: " << col2.get_proximity_colonies() << std::endl;
+        */
         }
 
     /*

@@ -11,7 +11,7 @@ namespace AnCO {
     graph_data_file::graph_data_file(const std::string& filename) : _filename(filename) {}
 
     void graph_data_file::load_file() {
-        std::cout << "Loading graph file: " << _filename << std::endl;
+        std::cout << "\tLoading graph file: " << _filename << std::endl;
         std::ifstream infile(_filename);
         std::string line;
         std::string n1, n2;
@@ -20,15 +20,18 @@ namespace AnCO {
             std::istringstream ss(line);
             if (ss >> n1 >> n2) {
                 if (n1 != n2) { //! Don't want edges over itself
+                    _nodes.insert(n1);
+                    _nodes.insert(n2);
                     _edges.insert(std::make_pair(n1, n2));
                     _edges_flip.insert(std::make_pair(n2, n1));
                     }
-                if (counter++ % 10000 == 0) {
-                    std::cout << counter << " edges so far" << std::endl;
+                if (++counter % 10000 == 0) {
+                    std::cout << "\t" << counter << " edges so far" << std::endl;
                     }
                 }
             }
         std::cout << "\t - edges: " << _edges.size() << std::endl;
+        std::cout << "\t - nodes: " << _nodes.size() << std::endl;
         };
 
     //bool graph_data_file::is_oriented() const { return true;}
@@ -51,6 +54,13 @@ namespace AnCO {
             edges.push_back(item);
             });
         return edges.size();
+        }
+
+    const std::string& graph_data_file::get_node_random() {
+        std::size_t r = std::rand()*_nodes.size()/RAND_MAX;
+        std::set<std::string>::const_iterator it(_nodes.begin());
+        std::advance(it, r);
+        return *it;
         }
 
     }

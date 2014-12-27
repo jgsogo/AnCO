@@ -30,6 +30,7 @@ namespace AnCO {
         return os;
         }
 
+    /*
     template <typename T, unsigned int N>
     inline std::ostream& operator<<(std::ostream& os, const std::array<T, N>& obj) {
         os << "|";
@@ -38,4 +39,5 @@ namespace AnCO {
             }
         return os;
         }
+    */
     }

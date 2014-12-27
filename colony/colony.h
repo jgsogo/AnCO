@@ -14,6 +14,8 @@ namespace AnCO {
             colony(graph& graph);
             ~colony();
 
+            const unsigned int& get_id() const { return _id;};
+
             void set_base_node(graph::_t_node_id base_node);
             void set_ant_constants(const float& alpha, const float& beta) { _alpha=alpha; _beta=beta;};
             
