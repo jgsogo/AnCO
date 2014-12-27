@@ -29,7 +29,7 @@ namespace AnCO {
         }
 
     int graph::get_edges(const _t_node_id& node_id, std::pair<std::vector<edge_ptr>, std::vector<edge_ptr>>& edges, const bool& cached) {
-        //this->get_node(node_id, cached); // just to check if it exists.
+        this->get_node(node_id, cached); // in order to make it available on local graph.
         if (!cached) {
             std::vector<graph_data::edge> edges_out, edges_in;
             _data.node_edges_outgoing(node_id, edges_out);
