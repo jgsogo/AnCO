@@ -14,6 +14,8 @@ namespace AnCO {
             virtual int node_edges_incoming(const std::string& node_id, std::vector<edge>& edges) const = 0;
             virtual int node_edges_outgoing(const std::string& node_id, std::vector<edge>& edges) const = 0;
 
+            // random_access
+            virtual const std::string& get_node_random() const { throw std::runtime_error("Not implemented (may not be possible)");};
         };
 
     }

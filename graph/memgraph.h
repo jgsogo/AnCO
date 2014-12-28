@@ -12,7 +12,6 @@ namespace AnCO {
             memgraph(const graph_data_file& data);
             ~memgraph();
 
-            virtual node_ptr get_node_random();
             virtual node_ptr get_node(const _t_node_id& node_id, const bool& cached=false);
             virtual int get_edges(const _t_node_id& node_id, std::pair<std::vector<edge_ptr>, std::vector<edge_ptr>>& edges, const bool& cached=false);
 

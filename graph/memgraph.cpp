@@ -17,9 +17,6 @@ namespace AnCO {
 
         }
 
-    node_ptr memgraph::get_node_random() {
-        return this->graph::get_node_random();
-        }
     node_ptr memgraph::get_node(const _t_node_id& node_id, const bool& cached) {
         return this->graph::get_node(node_id, true);
         }

@@ -20,7 +20,7 @@ namespace AnCO {
             virtual int node_edges_outgoing(const std::string& node_id, std::vector<edge>& edges) const;
 
             // random_access
-            const std::string& get_node_random() const;
+            virtual const std::string& get_node_random() const;
             const std::set<std::string>& get_nodes() const { return _nodes;};
             const std::multimap<std::string, std::string>& get_edges() const { return _edges;};
         protected:

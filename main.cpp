@@ -15,6 +15,7 @@
 #include "graph/memgraph.h"
 #include "graph/graph_data_file.h"
 #include "log.h"
+#include "metagraph.h"
 
 #include "colony/colony.h"
 

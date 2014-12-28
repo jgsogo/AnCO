@@ -12,7 +12,7 @@ ELSEIF (WIN32 OR UNIX)
 ENDIF(APPLE)
 
 add_definitions(-DN_COLONIES=4)
-add_definitions(-DN_ANTS_PER_COLONY=20)
+add_definitions(-DN_ANTS_PER_COLONY=100)
 
 # Add graph subdirectory
 SOURCE_GROUP("Header Files\\graph" FILES    graph/edge_data.h
