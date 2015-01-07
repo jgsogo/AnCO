@@ -66,7 +66,7 @@ int main() {
     AnCO::memgraph graph(dataset);
     t.toc();
 
-    std::cout << "2) Create neighbourhood of '" << GLOBALS::n_colonies << "' colonies" << std::endl;
+    std::cout << "2) Create neighbourhood of '" << n_colonies << "' colonies" << std::endl;
     t.tic();
     neighbourhood_type colony_meta(graph, n_ants_per_colony);
     utils::endless::_t_task colony_meta_task = [&colony_meta](){colony_meta.run(); colony_meta.update();};

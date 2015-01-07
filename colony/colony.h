@@ -15,8 +15,9 @@ namespace AnCO {
     class colony {
         public:
             colony(graph& graph, unsigned int n_ants = GLOBALS::n_ants_per_colony) : _graph(graph), _id(next_id++), _n_ants(n_ants) {
+                assert(_n_ants <= GLOBALS::n_max_ants_per_colony);
                 _max_steps = 100;
-                if (next_id > GLOBALS::n_colonies) { throw std::runtime_error("Max num of colonies reached; change N_COLONIES definition");}
+                if (next_id > GLOBALS::n_max_colonies) { throw std::runtime_error("Max num of colonies reached; change N_COLONIES definition");}
                 }
 
             ~colony() {};

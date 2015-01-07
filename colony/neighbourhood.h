@@ -21,7 +21,7 @@ namespace AnCO {
                     }                
 
                 for (std::size_t i = 0; i<n_colonies; i++) {
-                    colonies[i] = std::make_shared<colony_type>(_graph);                    
+                    colonies[i] = std::make_shared<colony_type>(_graph, n_ants);                    
                     }
                 this->reset();
                 };
