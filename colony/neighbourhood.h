@@ -28,6 +28,7 @@ namespace AnCO {
             ~neighbourhood() {};
 
             void reset() {
+                iteration = 0;
                 for (std::size_t i = 0; i<n_colonies; ++i) {
                     node_ptr node = _graph.get_node_random();
                     colonies[i]->set_base_node(node->id);
@@ -44,11 +45,12 @@ namespace AnCO {
                 for (std::size_t i = 0; i < n_colonies; ++i) {
                     colonies[i]->update();
                     }
-                this->update_prox_colonies();                
+                this->update_prox_colonies();
+                iteration++;
                 };
 
             const _t_proximity_matrix& get_proximity_matrix() { return _proximity_matrix;};
-
+            const unsigned int& get_iteration() const { return iteration;};
         protected:
             void update_prox_colonies() {
                 prox_algorithm::update_proximity_matrix(_proximity_matrix);
@@ -58,18 +60,17 @@ namespace AnCO {
                     const std::map<graph::_t_node_id, int>& neighbourhood = colonies[i]->get_neighbourhood();
                     
                     std::array<float, n_colonies> prox = prox_algorithm::compute_proximity(paths, neighbourhood);
-
                     // distance from colony 'i' to the rest 'j'
                     for (std::size_t j = 0; j<n_colonies; ++j) {
                         if (i != j) {
                             _proximity_matrix[i][j] += prox[j];
                             }
                         }
-
                     }
                 };
 
         protected:
+            unsigned int iteration;
             graph& _graph;
             std::array<std::shared_ptr<colony_type>, n_colonies> colonies;
 

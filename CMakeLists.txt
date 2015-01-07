@@ -30,13 +30,11 @@ SOURCE_GROUP("Header Files\\colony" FILES   colony/colony_neighbourhood.h
                                             colony/neighbourhood.h
                                             colony/colony.h
                                             colony/success.h)
-SOURCE_GROUP("Source Files\\colony" FILES   colony/colony.cpp)
 
 # Add algorithm subdirectory
 SOURCE_GROUP("Header Files\\algorithm" FILES    algorithm/aco_base.h
                                                 algorithm/prox_base.h)
-SOURCE_GROUP("Source Files\\algorithm" FILES    algorithm/aco_base.cpp
-                                                algorithm/prox_base.cpp)
+SOURCE_GROUP("Source Files\\algorithm" FILES    algorithm/aco_base.cpp)
 # Add algorithm subdirectory
 SOURCE_GROUP("Header Files\\utils" FILES    utils/random.h
                                             utils/threading.h)

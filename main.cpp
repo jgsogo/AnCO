@@ -55,8 +55,8 @@ int main() {
     
 
     std::cout << "1) Graph dataset from file" << std::endl;
-    //graph_data_file dataset("../data/Slashdot0902.txt");
-    graph_data_file dataset("../data/facebook_combined.txt");    
+    graph_data_file dataset("../data/Slashdot0902.txt");
+    //graph_data_file dataset("../data/facebook_combined.txt");    
     log_time t;
     dataset.load_file();
     t.toc();    
@@ -77,6 +77,7 @@ int main() {
     colony_meta_endless.start();
 
     int i = 1000;
+    unsigned int colony_meta_iteration = 0;
     while(i--) {
         
         //std::cout << "\tIteration " << i << std::endl;
@@ -85,52 +86,25 @@ int main() {
         //colony_meta.update();
         //t.toc();
         
-        if (system("CLS")) system("clear");
         neighbourhood_type::_t_proximity_matrix prox_matrix = colony_meta.get_proximity_matrix();
-        for (int ii=0; ii<n_colonies; ++ii) {
-            std::cout << "\t - col[" << ii << "]::neighbours:\t";
-            auto v = prox_matrix[ii];            
-            for (int jj=0; jj<n_colonies; ++jj) {
-                std::cout << std::fixed << std::setw(7) << std::setprecision(2) << std::setfill('0') << v[jj] << "  ";
+        if (colony_meta_iteration != colony_meta.get_iteration()) {
+            if (system("CLS")) system("clear");
+            colony_meta_iteration = colony_meta.get_iteration();
+            std::cout << "Iteration " << colony_meta_iteration << std::endl;
+            for (int ii=0; ii<n_colonies; ++ii) {
+                std::cout << "\n\t - col[" << ii << "]::neighbours:\t";
+                auto v = prox_matrix[ii];
+                for (int jj=0; jj<n_colonies; ++jj) {
+                    std::cout << std::fixed << std::setw(7) << std::setprecision(2) << std::setfill(' ') << v[jj] << "  ";
+                    }
+                std::cout << std::endl;
                 }
-            std::cout << std::endl;
+            }
+        else {
+            _sleep(500);
             }
         }
          
-
-    /*
-    std::cout << "2) Create '" << GLOBALS::n_colonies << "' resident colonies" << std::endl;
-    t.tic();
-    std::array<std::shared_ptr<colony_type>, GLOBALS::n_colonies> colonies;
-    std::for_each(colonies.begin(), colonies.end(), [&graph, &dataset](std::shared_ptr<colony_type>& col){
-        col = std::make_shared<colony_type>(graph);
-        const std::string& id_node = dataset.get_node_random();
-        std::cout << "\tcol[" << col->get_id() << "]::base_node = " << id_node << std::endl;
-        col->set_base_node(id_node);
-        });
-    t.toc();
-
-    std::cout << "3) Build metagraph" << std::endl;
-    int i = 1000;
-    while(i--) {        
-        std::cout << "\tIteration " << i << std::endl;
-        t.tic();
-        std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony_type>& ptr){ ptr->run();});
-        std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony_type>& ptr){ ptr->update();});
-        //std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony_type>& ptr){ ptr->update_pheromone();});
-
-        
-        std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony_type>& ptr){
-            auto v = ptr->get_proximity_colonies();
-            std::cout << "\t - col[" << ptr->get_id() << "]::neighbours:\t";
-            std::cout << std::fixed << std::setprecision( 6 );
-            std::copy(std::begin(v), std::end(v), std::ostream_iterator<float>(std::cout, "\t"));
-            std::cout << std::endl;
-            });
-        
-        t.toc();
-        }
-    */
     std::cout << "Done" << std::endl;
     getchar();
 }
