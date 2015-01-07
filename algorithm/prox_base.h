@@ -27,12 +27,12 @@ namespace AnCO {
                     };
 
                 static std::array<float, n_colonies> compute_proximity(const _t_ant_paths& paths, const std::map<graph::_t_node_id, int>& distances) {
-                    std::array<float, n_colonies> ret;
+                    std::array<float, n_colonies> ret = {0};
                     std::for_each(paths.begin(), paths.end(), [&ret, &distances](const _t_ant_path& path) {
                         for(_t_ant_path::const_iterator it = path.begin(); it != path.end(); ++it) {
                             for (std::size_t i = 0; i<n_colonies; ++i) {
                                 int d = distances.find((*it)->end)->second;
-                                ret[i] = prox_base<n_colonies>::proximity_value( (*it)->data.pheromone[i], d);
+                                ret[i] += prox_base<n_colonies>::proximity_value( (*it)->data.pheromone[i], d);
                                 }
                             }
                         });                    

@@ -11,8 +11,8 @@ ELSEIF (WIN32 OR UNIX)
    TARGET_COMPILE_OPTIONS(${BII_BLOCK_TARGET} INTERFACE "-std=c++11")
 ENDIF(APPLE)
 
-add_definitions(-DN_COLONIES=4)
-add_definitions(-DN_ANTS_PER_COLONY=100)
+add_definitions(-DN_MAX_COLONIES=100)
+add_definitions(-DN_MAX_ANTS_PER_COLONY=500)
 
 # Add graph subdirectory
 SOURCE_GROUP("Header Files\\graph" FILES    graph/edge_data.h
@@ -37,6 +37,10 @@ SOURCE_GROUP("Header Files\\algorithm" FILES    algorithm/aco_base.h
                                                 algorithm/prox_base.h)
 SOURCE_GROUP("Source Files\\algorithm" FILES    algorithm/aco_base.cpp
                                                 algorithm/prox_base.cpp)
+# Add algorithm subdirectory
+SOURCE_GROUP("Header Files\\utils" FILES    utils/random.h
+                                            utils/threading.h)
+ 
 
 # You can safely delete lines from here...
 

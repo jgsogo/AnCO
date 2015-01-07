@@ -8,7 +8,7 @@ namespace AnCO {
     template <class aco_algorithm>
     class colony_neighbourhood : public colony<aco_algorithm> {
         public:
-            colony_neighbourhood(graph& graph) : colony(graph) {
+            colony_neighbourhood(graph& graph, unsigned int n_ants = GLOBALS::n_ants_per_colony) : colony(graph) {
                 }
 
             ~colony_neighbourhood() {};
@@ -25,9 +25,9 @@ namespace AnCO {
 
             virtual void update() {
                 colony::update();
-                for (std::size_t i = 0; i < GLOBALS::n_ants_per_colony; ++i) { 
-                    this->build_neighbourhood(_ant_paths[i]);
-                    }
+                std::for_each(_ant_paths.begin(), _ant_paths.end(), [this](_t_ant_path& path) {
+                    this->build_neighbourhood(path);
+                    });
                 };
             
             const std::map<graph::_t_node_id, int>& get_neighbourhood() { return _neighbourhood;}

@@ -22,16 +22,21 @@
 #include "algorithm/prox_base.h"
 
 #include "colony/neighbourhood.h"
-
+#include "utils/threading.h"
 
 #ifdef _WINDOWS
     #include <windows.h>
+#endif
+#ifdef __cplusplus__
+  #include <cstdlib>
+#else
+  #include <stdlib.h>
 #endif
 
 using namespace AnCO;
 
 typedef AnCO::colony<algorithm::aco_base> colony_type;
-typedef AnCO::neighbourhood<GLOBALS::n_colonies, algorithm::aco_base, algorithm::prox_base> neighbourhood_type;
+typedef AnCO::neighbourhood<10, algorithm::aco_base, algorithm::prox_base> neighbourhood_type;
 
 int main() {
     #ifdef _WINDOWS
@@ -45,6 +50,9 @@ int main() {
     std::cout << "======" << std::endl;
     std::cout << "AnCO\n";
     std::cout << "======" << std::endl << std::endl;
+    int n_colonies = 10;
+    int n_ants_per_colony = 50;
+    
 
     std::cout << "1) Graph dataset from file" << std::endl;
     //graph_data_file dataset("../data/Slashdot0902.txt");
@@ -60,24 +68,31 @@ int main() {
 
     std::cout << "2) Create neighbourhood of '" << GLOBALS::n_colonies << "' colonies" << std::endl;
     t.tic();
-    neighbourhood_type colony_meta(graph);
+    neighbourhood_type colony_meta(graph, n_ants_per_colony);
+    utils::endless::_t_task colony_meta_task = [&colony_meta](){colony_meta.run(); colony_meta.update();};
+    utils::endless colony_meta_endless(colony_meta_task);
     t.toc();
 
     std::cout << "3) Build metagraph" << std::endl;
-    int i = 1000;
-    while(i--) {        
-        std::cout << "\tIteration " << i << std::endl;
-        t.tic();
-        colony_meta.run();
-        colony_meta.update();
-        t.toc();
+    colony_meta_endless.start();
 
-        const neighbourhood_type::_t_proximity_matrix& prox_matrix = colony_meta.get_proximity_matrix();
-        for (int ii=0; ii<GLOBALS::n_colonies; ++ii) {
+    int i = 1000;
+    while(i--) {
+        
+        //std::cout << "\tIteration " << i << std::endl;
+        //t.tic();
+        //colony_meta.run();
+        //colony_meta.update();
+        //t.toc();
+        
+        if (system("CLS")) system("clear");
+        neighbourhood_type::_t_proximity_matrix prox_matrix = colony_meta.get_proximity_matrix();
+        for (int ii=0; ii<n_colonies; ++ii) {
             std::cout << "\t - col[" << ii << "]::neighbours:\t";
-            auto v = prox_matrix[ii];
-            std::cout << std::fixed << std::setprecision( 6 );
-            std::copy(std::begin(v), std::end(v), std::ostream_iterator<float>(std::cout, "\t"));
+            auto v = prox_matrix[ii];            
+            for (int jj=0; jj<n_colonies; ++jj) {
+                std::cout << std::fixed << std::setw(7) << std::setprecision(2) << std::setfill('0') << v[jj] << "  ";
+                }
             std::cout << std::endl;
             }
         }

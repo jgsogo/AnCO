@@ -29,14 +29,16 @@ namespace AnCO {
 
             virtual void run() {
                 _ant_paths.clear();
-                for (std::size_t i = 0; i < GLOBALS::n_ants_per_colony; ++i) {
+                for (std::size_t i = 0; i < _n_ants; ++i) {
                     _t_ant_path path;                    
                     success suc;
                     bool ret = aco_algorithm::run(_graph, _base_node, _id, static_cast<aco_algorithm::_f_success>(suc), path, _max_steps);
                     if (ret) {
                         std::cout << "Col[" << _id << "] Ant[" << i << "] Succeded!!" << std::endl;
                         }
-                    _ant_paths.push_back(path);
+                    if (path.size()) {
+                        _ant_paths.push_back(path);
+                        }
                     }
                 };
 
