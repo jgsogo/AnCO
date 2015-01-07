@@ -4,6 +4,8 @@
 // Let's use biicode
 #include "tinythread/tinythread/source/tinythread.h"
 
+#include "sleep.h"
+
 namespace AnCO {
     namespace utils {
 
@@ -36,7 +38,7 @@ namespace AnCO {
                 virtual void do_work() {
                     while (_running) {
                         _task();
-                        _sleep(0);
+                        Sleep(0);
                         }
                     };
 

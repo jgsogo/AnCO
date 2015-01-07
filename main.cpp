@@ -23,6 +23,7 @@
 
 #include "colony/neighbourhood.h"
 #include "utils/threading.h"
+#include "utils/sleep.h"
 
 #ifdef _WINDOWS
     #include <windows.h>
@@ -78,7 +79,7 @@ int main() {
 
     int i = 1000;
     unsigned int colony_meta_iteration = 0;
-    while(i--) {
+    while(true) {
         
         //std::cout << "\tIteration " << i << std::endl;
         //t.tic();
@@ -101,7 +102,7 @@ int main() {
                 }
             }
         else {
-            _sleep(500);
+            Sleep(500);
             }
         }
          

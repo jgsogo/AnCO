@@ -33,7 +33,8 @@ namespace AnCO {
                 for (std::size_t i = 0; i < _n_ants; ++i) {
                     _t_ant_path path;                    
                     success suc;
-                    bool ret = aco_algorithm::run(_graph, _base_node, _id, static_cast<aco_algorithm::_f_success>(suc), path, _max_steps);
+                    typename aco_algorithm::_f_success suc_ = suc;
+                    bool ret = aco_algorithm::run(_graph, _base_node, _id, suc_, path, _max_steps);
                     if (ret) {
                         std::cout << "Col[" << _id << "] Ant[" << i << "] Succeded!!" << std::endl;
                         }
