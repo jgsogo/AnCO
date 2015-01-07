@@ -26,11 +26,11 @@ SOURCE_GROUP("Source Files\\graph" FILES    graph/graph.cpp
                                             graph/graph_sqlite3.cpp)
 
 # Add colony subdirectory
-SOURCE_GROUP("Header Files\\colony" FILES   colony/ant.h
+SOURCE_GROUP("Header Files\\colony" FILES   colony/colony_neighbourhood.h
+                                            colony/neighbourhood.h
                                             colony/colony.h
                                             colony/success.h)
-SOURCE_GROUP("Source Files\\colony" FILES   colony/ant.cpp
-                                            colony/colony.cpp)
+SOURCE_GROUP("Source Files\\colony" FILES   colony/colony.cpp)
 
 # Add algorithm subdirectory
 SOURCE_GROUP("Header Files\\algorithm" FILES    algorithm/aco_base.h

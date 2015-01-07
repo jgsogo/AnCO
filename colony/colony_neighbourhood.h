@@ -14,8 +14,8 @@ namespace AnCO {
             ~colony_neighbourhood() {};
 
             virtual void set_base_node(graph::_t_node_id base_node) {
+                colony::set_base_node(base_node);
                 _neighbourhood.clear();
-                for (int i = 0; i< GLOBALS::n_colonies; ++i) { _proximity_colonies[i] = 0.f;}
                 _neighbourhood.insert(std::make_pair(_base_node, 0)); // base node
                 };
 

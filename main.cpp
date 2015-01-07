@@ -15,7 +15,6 @@
 #include "graph/graph_data_file.h"
 #include "log.h"
 #include "log_time.h"
-#include "metagraph.h"
 
 #include "colony/colony.h"
 
@@ -32,6 +31,7 @@
 using namespace AnCO;
 
 typedef AnCO::colony<algorithm::aco_base> colony_type;
+typedef AnCO::neighbourhood<GLOBALS::n_colonies, algorithm::aco_base, algorithm::prox_base> neighbourhood_type;
 
 int main() {
     #ifdef _WINDOWS
@@ -53,11 +53,37 @@ int main() {
     dataset.load_file();
     t.toc();    
 
-    std::cout << "2) Make graph available " << std::endl;
+    std::cout << "2) Make graph available on memory" << std::endl;
     t.tic();
     AnCO::memgraph graph(dataset);
     t.toc();
 
+    std::cout << "2) Create neighbourhood of '" << GLOBALS::n_colonies << "' colonies" << std::endl;
+    t.tic();
+    neighbourhood_type colony_meta(graph);
+    t.toc();
+
+    std::cout << "3) Build metagraph" << std::endl;
+    int i = 1000;
+    while(i--) {        
+        std::cout << "\tIteration " << i << std::endl;
+        t.tic();
+        colony_meta.run();
+        colony_meta.update();
+        t.toc();
+
+        const neighbourhood_type::_t_proximity_matrix& prox_matrix = colony_meta.get_proximity_matrix();
+        for (int ii=0; ii<GLOBALS::n_colonies; ++ii) {
+            std::cout << "\t - col[" << ii << "]::neighbours:\t";
+            auto v = prox_matrix[ii];
+            std::cout << std::fixed << std::setprecision( 6 );
+            std::copy(std::begin(v), std::end(v), std::ostream_iterator<float>(std::cout, "\t"));
+            std::cout << std::endl;
+            }
+        }
+         
+
+    /*
     std::cout << "2) Create '" << GLOBALS::n_colonies << "' resident colonies" << std::endl;
     t.tic();
     std::array<std::shared_ptr<colony_type>, GLOBALS::n_colonies> colonies;
@@ -78,7 +104,7 @@ int main() {
         std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony_type>& ptr){ ptr->update();});
         //std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony_type>& ptr){ ptr->update_pheromone();});
 
-        /*
+        
         std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony_type>& ptr){
             auto v = ptr->get_proximity_colonies();
             std::cout << "\t - col[" << ptr->get_id() << "]::neighbours:\t";
@@ -86,10 +112,10 @@ int main() {
             std::copy(std::begin(v), std::end(v), std::ostream_iterator<float>(std::cout, "\t"));
             std::cout << std::endl;
             });
-        */
+        
         t.toc();
         }
-
+    */
     std::cout << "Done" << std::endl;
     getchar();
 }
