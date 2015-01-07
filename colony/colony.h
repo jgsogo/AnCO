@@ -35,18 +35,13 @@ namespace AnCO {
             void set_ant_constants(const float& alpha, const float& beta) { _alpha=alpha; _beta=beta;};
             
             void run() {
-                //std::cout << "col[" << _id << "]::run" << std::endl;
                 for (std::size_t i = 0; i < GLOBALS::n_ants_per_colony; ++i) {
-                    //std::cout << "\tant[" << i << "]::run";
                     _ant_paths[i].clear();
                     success suc;
                     bool ret = aco_algorithm::run(_graph, _base_node, _id, static_cast<aco_algorithm::_f_success>(suc), _ant_paths[i], _max_steps);
-                    //bool ret = ant(*this, _alpha, _beta).run(_base_node, suc, _ant_paths[i]);
                     if (ret) {
                         std::cout << "Col[" << _id << "] Ant[" << i << "] Succeded!!" << std::endl;
                         }
-                    //std::cout << " -> " << ret << std::endl;
-                    //this->build_neighbourhood(path);
                     }
                 };
 
@@ -70,7 +65,6 @@ namespace AnCO {
             std::array<float, GLOBALS::n_colonies> get_proximity_colonies() { return _proximity_colonies;};
         protected:
             // to be called by its ants            
-            void update_pheromone(const std::vector<edge_ptr>& path);
             void build_neighbourhood(const std::vector<edge_ptr>& path) {
                 auto it = path.begin();
                 assert( _base_node == (*it)->init); // Si no empezamos en el nodo base... no sé muy bien cómo calcular esto.
