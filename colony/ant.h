@@ -6,7 +6,7 @@
 #include "success.h"
 
 namespace AnCO {
-
+    /*
     class colony;
 
     class ant {
@@ -25,5 +25,5 @@ namespace AnCO {
             colony& _colony;
             float alpha, beta;
         };
-
+    */
     }

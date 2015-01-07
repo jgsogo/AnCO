@@ -5,7 +5,7 @@
 #include "colony.h"
 
 namespace AnCO {
-
+    /*
     ant::ant(colony& colony, const float& alpha, const float& beta) : alpha(alpha), beta(beta), _colony(colony) {
         }
 
@@ -64,5 +64,5 @@ namespace AnCO {
         // La distancia de todos los nodos es 1.
         return pow(ptr->data.pheromone[_colony._id], alpha)* pow(1/ptr->data.distance, beta);
         }
-
+    */
     }

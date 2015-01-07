@@ -19,12 +19,16 @@
 
 #include "colony/colony.h"
 
+#include "algorithm/aco_base.h"
+#include "algorithm/prox_base.h"
+
 #ifdef _WINDOWS
     #include <windows.h>
 #endif
 
 using namespace AnCO;
 
+typedef AnCO::colony<algorithm::aco_base, algorithm::prox_base> colony_type;
 
 int main() {
     #ifdef _WINDOWS
@@ -53,9 +57,9 @@ int main() {
 
     std::cout << "2) Create '" << GLOBALS::n_colonies << "' resident colonies" << std::endl;
     t.tic();
-    std::array<std::shared_ptr<colony>, GLOBALS::n_colonies> colonies;
-    std::for_each(colonies.begin(), colonies.end(), [&graph, &dataset](std::shared_ptr<colony>& col){
-        col = std::make_shared<colony>(graph);
+    std::array<std::shared_ptr<colony_type>, GLOBALS::n_colonies> colonies;
+    std::for_each(colonies.begin(), colonies.end(), [&graph, &dataset](std::shared_ptr<colony_type>& col){
+        col = std::make_shared<colony_type>(graph);
         const std::string& id_node = dataset.get_node_random();
         std::cout << "\tcol[" << col->get_id() << "]::base_node = " << id_node << std::endl;
         col->set_base_node(id_node);
@@ -67,11 +71,11 @@ int main() {
     while(i--) {        
         std::cout << "\tIteration " << i << std::endl;
         t.tic();
-        std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony>& ptr){ ptr->run();});
-        std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony>& ptr){ ptr->update();});
-        std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony>& ptr){ ptr->update_pheromone();});
+        std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony_type>& ptr){ ptr->run();});
+        std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony_type>& ptr){ ptr->update();});
+        std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony_type>& ptr){ ptr->update_pheromone();});
 
-        std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony>& ptr){
+        std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony_type>& ptr){
             auto v = ptr->get_proximity_colonies();
             std::cout << "\t - col[" << ptr->get_id() << "]::neighbours:\t";
             std::cout << std::fixed << std::setprecision( 6 );

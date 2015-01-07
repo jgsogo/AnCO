@@ -32,6 +32,11 @@ SOURCE_GROUP("Header Files\\colony" FILES   colony/ant.h
 SOURCE_GROUP("Source Files\\colony" FILES   colony/ant.cpp
                                             colony/colony.cpp)
 
+# Add algorithm subdirectory
+SOURCE_GROUP("Header Files\\algorithm" FILES    algorithm/aco_base.h
+                                                algorithm/prox_base.h)
+SOURCE_GROUP("Source Files\\algorithm" FILES    algorithm/aco_base.cpp
+                                                algorithm/prox_base.cpp)
 
 # You can safely delete lines from here...
 
