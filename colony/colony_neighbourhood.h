@@ -1,57 +1,39 @@
 
 #pragma once
 
-#include <array>
-#include "../graph/graph.h"
-#include "../globals.h"
-#include "success.h"
+#include "colony.h"
 
 namespace AnCO {
 
-    typedef std::vector<edge_ptr> _t_ant_path;
-    typedef std::vector<_t_ant_path> _t_ant_paths;
-
     template <class aco_algorithm>
-    class colony {
+    class colony_neighbourhood : public colony<aco_algorithm> {
         public:
-            colony(graph& graph, unsigned int n_ants = GLOBALS::n_ants_per_colony) : _graph(graph), _id(next_id++), _n_ants(n_ants) {
-                _max_steps = 100;
-                if (next_id > GLOBALS::n_colonies) { throw std::runtime_error("Max num of colonies reached; change N_COLONIES definition");}
+            colony_neighbourhood(graph& graph) : colony(graph) {
                 }
 
-            ~colony() {};
-
-            const unsigned int& get_id() const { return _id;};
+            ~colony_neighbourhood() {};
 
             virtual void set_base_node(graph::_t_node_id base_node) {
-                _base_node = base_node;
+                _neighbourhood.clear();
+                for (int i = 0; i< GLOBALS::n_colonies; ++i) { _proximity_colonies[i] = 0.f;}
+                _neighbourhood.insert(std::make_pair(_base_node, 0)); // base node
                 };
 
             virtual void run() {
-                _ant_paths.clear();
-                for (std::size_t i = 0; i < GLOBALS::n_ants_per_colony; ++i) {
-                    _t_ant_path path;                    
-                    success suc;
-                    bool ret = aco_algorithm::run(_graph, _base_node, _id, static_cast<aco_algorithm::_f_success>(suc), path, _max_steps);
-                    if (ret) {
-                        std::cout << "Col[" << _id << "] Ant[" << i << "] Succeded!!" << std::endl;
-                        }
-                    _ant_paths.push_back(path);
-                    }
+                colony::run();
                 };
 
             virtual void update() {
-                this->update_pheromone();
-                };
-            
-            const _t_ant_paths& get_paths() const { return _ant_paths; };
-        protected:
-            void update_pheromone() {
-                for (_t_ant_paths::const_iterator it = _ant_paths.begin(); it != _ant_paths.end(); ++it) {
-                    aco_algorithm::update_pheromone(*it, _id);
+                colony::update();
+                for (std::size_t i = 0; i < GLOBALS::n_ants_per_colony; ++i) { 
+                    this->build_neighbourhood(_ant_paths[i]);
                     }
                 };
-            /*
+            
+            const std::map<graph::_t_node_id, int>& get_neighbourhood() { return _neighbourhood;}
+            //std::array<float, GLOBALS::n_colonies> get_proximity_colonies() { return _proximity_colonies;};
+
+        protected:
             // to be called by its ants            
             void build_neighbourhood(const std::vector<edge_ptr>& path) {
                 auto it = path.begin();
@@ -70,7 +52,7 @@ namespace AnCO {
                     ++it;
                     }
                 };
-
+            /*
             void build_prox_colonies(const std::vector<edge_ptr>& path) {
                 // 2) Compute distance to colonies
                 //      se actualiza el valor de proximidad
@@ -103,18 +85,8 @@ namespace AnCO {
                 };
             */
         protected:
-            static unsigned int next_id;
-            const unsigned int _id;
-            graph::_t_node_id _base_node;
-            graph& _graph;
-            // ants constants
-            unsigned int _n_ants;
-            int _max_steps;
-            _t_ant_paths _ant_paths;
+            std::map<graph::_t_node_id, int> _neighbourhood; // nodes
+            //std::array<float, GLOBALS::n_colonies> _proximity_colonies;
         };
-
-    // Inicialización de variables miembro.
-    template <class T>
-    unsigned int colony<T>::next_id = 0;
 
     }

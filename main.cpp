@@ -22,13 +22,16 @@
 #include "algorithm/aco_base.h"
 #include "algorithm/prox_base.h"
 
+#include "colony/neighbourhood.h"
+
+
 #ifdef _WINDOWS
     #include <windows.h>
 #endif
 
 using namespace AnCO;
 
-typedef AnCO::colony<algorithm::aco_base, algorithm::prox_base> colony_type;
+typedef AnCO::colony<algorithm::aco_base> colony_type;
 
 int main() {
     #ifdef _WINDOWS
@@ -73,8 +76,9 @@ int main() {
         t.tic();
         std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony_type>& ptr){ ptr->run();});
         std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony_type>& ptr){ ptr->update();});
-        std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony_type>& ptr){ ptr->update_pheromone();});
+        //std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony_type>& ptr){ ptr->update_pheromone();});
 
+        /*
         std::for_each(colonies.begin(), colonies.end(), [](std::shared_ptr<colony_type>& ptr){
             auto v = ptr->get_proximity_colonies();
             std::cout << "\t - col[" << ptr->get_id() << "]::neighbours:\t";
@@ -82,29 +86,10 @@ int main() {
             std::copy(std::begin(v), std::end(v), std::ostream_iterator<float>(std::cout, "\t"));
             std::cout << std::endl;
             });
-        t.toc();
-        /*
-        auto v = col1.get_proximity_colonies();
-        std::cout << "col1-neighbours: ";
-        std::copy(begin(v), end(v), std::ostream_iterator<float>(std::cout, " "));
-        std::cout << std::endl;
-        //std::cout << "col2-neighbours: " << col2.get_proximity_colonies() << std::endl;
         */
+        t.toc();
         }
 
-    /*
-    AnCO::node_ptr n25 = graph.get_node("25");
-    std::cout << n25 << std::endl;
-    n25->data.value = 25;
-
-    n25 = graph.get_node("25");
-    std::cout << n25 << std::endl;
-
-    std::pair<std::vector<AnCO::edge_ptr>, std::vector<AnCO::edge_ptr>> edges25;
-    graph.get_edges(n25->id, edges25);
-    std::cout << n25 << " edges:" << std::endl;
-    std::for_each(edges25.first.begin(), edges25.first.end(), [](AnCO::edge_ptr& ptr) {std::cout << "\t" << ptr << std::endl;});
-    */
     std::cout << "Done" << std::endl;
     getchar();
 }

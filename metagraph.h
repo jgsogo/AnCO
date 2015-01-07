@@ -8,7 +8,7 @@ namespace AnCO {
 
     template <class aco_algorithm, class prox_algorithm>
     class metagraph {
-        typedef colony<aco_algorithm, prox_algorithm> colony_type;
+        typedef colony<aco_algorithm> colony_type;
         public:
             metagraph(const graph& graph) : _graph(graph) {};
             ~metagraph() {};
