@@ -75,6 +75,9 @@ namespace AnCO {
         bool inserted;
         while (it != path.end()) {            
             std::tie(it_node, inserted) = _neighbourhood.insert(std::make_pair( (*it)->end, current_distance));
+            if (!inserted) {
+                it_node->second = (std::min)(current_distance, it_node->second);
+                }
             current_distance = it_node->second + 1;            
             ++it;
             }
