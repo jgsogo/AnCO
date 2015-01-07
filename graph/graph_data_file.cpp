@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include "../utils/random.h"
 
 namespace AnCO {
 
@@ -57,7 +58,7 @@ namespace AnCO {
         }
 
     const std::string& graph_data_file::get_node_random() const {
-        std::size_t r = std::rand()*_nodes.size()/RAND_MAX;
+        std::size_t r = utils::random::get_random(_nodes.size());
         std::set<std::string>::const_iterator it(_nodes.begin());
         std::advance(it, r);
         return *it;

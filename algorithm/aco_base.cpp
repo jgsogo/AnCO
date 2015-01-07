@@ -7,6 +7,7 @@ namespace AnCO {
     namespace algorithm {
         float aco_base::alpha = 1.f;
         float aco_base::beta = 2.5f;
+        float aco_base::pheromone_change_factor = 1.f;
 
         float aco_base::prob_edge(const edge_ptr& ptr, const unsigned int& id) {
             return pow(ptr->data.pheromone[id], alpha)* pow(1/ptr->data.distance, beta);
@@ -73,5 +74,11 @@ namespace AnCO {
             return step!=max_steps;
             }
 
+        void aco_base::update_pheromone(const std::vector<edge_ptr>& path, const unsigned int& pherom_id) {
+            float _pheromone_add = pheromone_change_factor/(float)path.size();
+            std::for_each(path.begin(), path.end(), [_pheromone_add, &pherom_id](const edge_ptr& ptr) {
+                ptr->data.pheromone[pherom_id] += _pheromone_add;
+                });
+            }
         }
     }

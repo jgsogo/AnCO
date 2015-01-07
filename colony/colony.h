@@ -3,19 +3,17 @@
 
 #include <array>
 #include "../graph/graph.h"
-#include "ant.h"
 #include "../globals.h"
+#include "success.h"
 
 namespace AnCO {
 
     template <class aco_algorithm, class prox_algorithm>
     class colony {
-        friend class ant;
         public:
             colony(graph& graph) : _graph(graph), _id(next_id++) {
                 _max_steps = 100;
                 _pheromone_sensitivity = GLOBALS::min_pheromone; // sensitividad a partir de la cual empieza a detectar otras colonias
-                _pheromone_change_factor = 1.f;
                 for (int i = 0; i< GLOBALS::n_colonies; ++i) { _proximity_colonies[i] = 0.f;}
                 _proximity_decay_factor = 0.5f; // coeficiente de actualización de la distancia a otro hormiguero.
                 _gamma = 1.f;
@@ -60,17 +58,14 @@ namespace AnCO {
                     this->build_prox_colonies(_ant_paths[i]);
                     }  
                 };
-
+            
             void update_pheromone() {
                 for (std::size_t i = 0; i < GLOBALS::n_ants_per_colony; ++i) { 
                     const std::vector<edge_ptr>& path = _ant_paths[i];
-                    float _pheromone_add = _pheromone_change_factor/(float)path.size();
-                    std::for_each(path.begin(), path.end(), [this, &_pheromone_add](const edge_ptr& ptr) {
-                        ptr->data.pheromone[_id] += _pheromone_add;
-                        });
+                    aco_algorithm::update_pheromone(path, _id);
                     }
                 };
-
+            
             const std::map<graph::_t_node_id, int>& get_neighbourhood() { return _neighbourhood;}
             std::array<float, GLOBALS::n_colonies> get_proximity_colonies() { return _proximity_colonies;};
         protected:
@@ -135,7 +130,7 @@ namespace AnCO {
             std::vector<edge_ptr> _ant_paths[GLOBALS::n_ants_per_colony];
             // colony constants
             float _pheromone_sensitivity;
-            float _pheromone_change_factor;
+            //float _pheromone_change_factor;
             // graph knowledge
             std::map<graph::_t_node_id, int> _neighbourhood; // nodes
 
