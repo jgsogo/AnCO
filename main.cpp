@@ -10,41 +10,38 @@
 #include <iostream>
 #include <iterator>
 #include <iomanip>
-#include <chrono>
 
 #include "graph/memgraph.h"
 #include "graph/graph_data_file.h"
 #include "log.h"
+#include "log_time.h"
 #include "metagraph.h"
 
 #include "colony/colony.h"
 
+#ifdef _WINDOWS
+    #include <windows.h>
+#endif
+
 using namespace AnCO;
 
-struct log_time {
-    log_time() {
-        t1 = std::chrono::high_resolution_clock::now();
-        };
-    ~log_time() {        
-        }
-    void tic() {
-        t1 = std::chrono::high_resolution_clock::now();
-        };
-    void toc() {
-        std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
-        std::cout << "\t|| " << std::chrono::duration_cast<std::chrono::milliseconds>( t2 - t1 ).count() << " miliseconds ||" << std::endl;  
-        };
-    std::chrono::high_resolution_clock::time_point t1;
-    };
 
 int main() {
+    #ifdef _WINDOWS
+        HWND console = GetConsoleWindow();
+        RECT r;
+        GetWindowRect(console, &r); //stores the console's current dimensions
+
+        MoveWindow(console, r.left, r.top, 1200, 800, TRUE); // 800 width, 100 height
+    #endif
+
     std::cout << "======" << std::endl;
     std::cout << "AnCO\n";
     std::cout << "======" << std::endl << std::endl;
 
     std::cout << "1) Graph dataset from file" << std::endl;
-    graph_data_file dataset("data/Slashdot0902.txt");
-    //graph_data_file dataset("data/facebook_combined.txt");    
+    //graph_data_file dataset("../data/Slashdot0902.txt");
+    graph_data_file dataset("../data/facebook_combined.txt");    
     log_time t;
     dataset.load_file();
     t.toc();    
@@ -78,7 +75,7 @@ int main() {
             auto v = ptr->get_proximity_colonies();
             std::cout << "\t - col[" << ptr->get_id() << "]::neighbours:\t";
             std::cout << std::fixed << std::setprecision( 6 );
-            std::copy(begin(v), end(v), std::ostream_iterator<float>(std::cout, "\t"));
+            std::copy(std::begin(v), std::end(v), std::ostream_iterator<float>(std::cout, "\t"));
             std::cout << std::endl;
             });
         t.toc();
