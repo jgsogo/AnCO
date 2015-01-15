@@ -8,7 +8,10 @@ namespace AnCO {
     template <class aco_algorithm>
     class colony_neighbourhood : public colony<aco_algorithm> {
         public:
-            colony_neighbourhood(graph& graph, unsigned int n_ants = GLOBALS::n_ants_per_colony) : colony<aco_algorithm>(graph) {
+            colony_neighbourhood(   
+                graph& graph, 
+                unsigned int n_ants,// = GLOBALS::n_ants_per_colony,
+                unsigned int max_steps) : colony<aco_algorithm>(graph, n_ants, max_steps) {
                 }
 
             ~colony_neighbourhood() {};

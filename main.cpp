@@ -52,7 +52,8 @@ int main() {
     std::cout << "AnCO\n";
     std::cout << "======" << std::endl << std::endl;
     int n_colonies = 10;
-    int n_ants_per_colony = 50;
+    unsigned int n_ants_per_colony = 50;
+    unsigned int max_steps = 10;
     
 
     std::cout << "1) Graph dataset from file" << std::endl;
@@ -69,7 +70,7 @@ int main() {
 
     std::cout << "2) Create neighbourhood of '" << n_colonies << "' colonies" << std::endl;
     t.tic();
-    neighbourhood_type colony_meta(graph, n_ants_per_colony);
+    neighbourhood_type colony_meta(graph, n_ants_per_colony, max_steps);
     utils::endless::_t_task colony_meta_task = [&colony_meta](){colony_meta.run(); colony_meta.update();};
     utils::endless colony_meta_endless(colony_meta_task);
     t.toc();

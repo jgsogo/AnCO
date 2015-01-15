@@ -14,9 +14,11 @@ namespace AnCO {
     template <class aco_algorithm>
     class colony {
         public:
-            colony(graph& graph, unsigned int n_ants = GLOBALS::n_ants_per_colony) : _graph(graph), _id(next_id++), _n_ants(n_ants) {
+            colony( graph& graph, 
+                    unsigned int n_ants,// = GLOBALS::n_ants_per_colony,
+                    unsigned int max_steps
+                    ) : _graph(graph), _id(next_id++), _n_ants(n_ants), _max_steps(max_steps) {
                 assert(_n_ants <= GLOBALS::n_max_ants_per_colony);
-                _max_steps = 100;
                 if (next_id > GLOBALS::n_max_colonies) { throw std::runtime_error("Max num of colonies reached; change N_COLONIES definition");}
                 }
 

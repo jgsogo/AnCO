@@ -13,7 +13,10 @@ namespace AnCO {
             typedef typename prox_algorithm::_t_proximity_matrix _t_proximity_matrix;
 
         public:
-            neighbourhood(graph& graph, unsigned int n_ants = GLOBALS::n_ants_per_colony) : _graph(graph) {
+            neighbourhood(
+                graph& graph, 
+                unsigned int n_ants,// = GLOBALS::n_ants_per_colony,
+                unsigned int max_steps) : _graph(graph) {
                 for (std::size_t ii=0; ii<n_colonies;  ++ii) {
                     for (std::size_t jj=0; jj<n_colonies;  ++jj) {
                         _proximity_matrix[ii][jj] = 0.f;
@@ -21,7 +24,7 @@ namespace AnCO {
                     }                
 
                 for (std::size_t i = 0; i<n_colonies; i++) {
-                    colonies[i] = std::make_shared<colony_type>(_graph, n_ants);                    
+                    colonies[i] = std::make_shared<colony_type>(_graph, n_ants, max_steps);
                     }
                 this->reset();
                 };
