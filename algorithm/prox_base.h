@@ -13,6 +13,21 @@ namespace AnCO {
         class prox_base {
             public:
                 typedef std::array<std::array<float, n_colonies>, n_colonies> _t_proximity_matrix; 
+                typedef std::map<graph::_t_node_id, int> _t_neighbourhood_map;
+
+                static void penalize_neighbourhood(_t_neighbourhood_map& _neighbourhood, const unsigned int& max_steps) {
+                    _t_neighbourhood_map::iterator iter = _neighbourhood.begin();
+                    const unsigned int max_distance = max_steps -1;
+                    for (; iter != _neighbourhood.end(); ) {
+                        if (iter->second > max_distance) {
+                            _neighbourhood.erase(iter++);
+                            }
+                        else {
+                            iter->second += 1;
+                            ++iter;
+                            }
+                        }
+                    };
 
                 static void update_proximity_matrix(_t_proximity_matrix& matrix) {
                     for (int i = 0; i<n_colonies; i++) {

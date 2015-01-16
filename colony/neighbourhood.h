@@ -8,8 +8,8 @@ namespace AnCO {
     template <unsigned int n_colonies, class aco_algorithm, template<unsigned int> class prox_algorithm_trait>
     class neighbourhood {
         public:
-            typedef colony_neighbourhood<aco_algorithm> colony_type;
             typedef prox_algorithm_trait<n_colonies> prox_algorithm;
+            typedef colony_neighbourhood<aco_algorithm, prox_algorithm> colony_type;
             typedef typename prox_algorithm::_t_proximity_matrix _t_proximity_matrix;
 
         public:

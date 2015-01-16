@@ -15,6 +15,7 @@
 #include "graph/graph_data_file.h"
 #include "log.h"
 #include "log_time.h"
+#include "config.h"
 
 #include "colony/colony.h"
 
@@ -39,7 +40,14 @@ using namespace AnCO;
 typedef AnCO::colony<algorithm::aco_base> colony_type;
 typedef AnCO::neighbourhood<10, algorithm::aco_base, algorithm::prox_base> neighbourhood_type;
 
-int main() {
+int main(int argc, char* argv[]) {
+    // Check the number of parameters
+    if (argc < 2) {
+        // Tell the user how to run the program
+        std::cerr << "Usage: " << argv[0] << " 'CONFIG_FILE'" << std::endl;
+        return 1;
+        }
+
     #ifdef _WINDOWS
         HWND console = GetConsoleWindow();
         RECT r;
@@ -51,13 +59,14 @@ int main() {
     std::cout << "======" << std::endl;
     std::cout << "AnCO\n";
     std::cout << "======" << std::endl << std::endl;
-    int n_colonies = 10;
-    unsigned int n_ants_per_colony = 50;
-    unsigned int max_steps = 10;
+    config cfg = load_config(argv[1]);
+    //int n_colonies = 10;
+    //unsigned int n_ants_per_colony = 10;
+    //unsigned int max_steps = 5;
     
 
     std::cout << "1) Graph dataset from file" << std::endl;
-    graph_data_file dataset("../data/Slashdot0902.txt");
+    graph_data_file dataset(cfg.dataset);
     //graph_data_file dataset("../data/facebook_combined.txt");    
     log_time t;
     dataset.load_file();
@@ -68,9 +77,9 @@ int main() {
     AnCO::memgraph graph(dataset);
     t.toc();
 
-    std::cout << "2) Create neighbourhood of '" << n_colonies << "' colonies" << std::endl;
+    std::cout << "2) Create neighbourhood of '" << cfg.n_colonies << "' colonies" << std::endl;
     t.tic();
-    neighbourhood_type colony_meta(graph, n_ants_per_colony, max_steps);
+    neighbourhood_type colony_meta(graph, cfg.n_ants_per_colony, cfg.max_steps);
     utils::endless::_t_task colony_meta_task = [&colony_meta](){colony_meta.run(); colony_meta.update();};
     utils::endless colony_meta_endless(colony_meta_task);
     t.toc();
@@ -93,10 +102,10 @@ int main() {
             if (system("CLS")) system("clear");
             colony_meta_iteration = colony_meta.get_iteration();
             std::cout << "Iteration " << colony_meta_iteration << std::endl;
-            for (int ii=0; ii<n_colonies; ++ii) {
+            for (int ii=0; ii<cfg.n_colonies; ++ii) {
                 std::cout << "\n\t - col[" << ii << "]::neighbours:\t";
                 auto v = prox_matrix[ii];
-                for (int jj=0; jj<n_colonies; ++jj) {
+                for (int jj=0; jj<cfg.n_colonies; ++jj) {
                     std::cout << std::fixed << std::setw(7) << std::setprecision(2) << std::setfill(' ') << v[jj] << "  ";
                     }
                 std::cout << std::endl;
