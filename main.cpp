@@ -41,8 +41,7 @@ typedef AnCO::colony<algorithm::aco_base> colony_type;
 typedef AnCO::neighbourhood<10, algorithm::aco_base, algorithm::prox_base> neighbourhood_type;
 
 int main(int argc, char* argv[]) {
-    // Check the number of parameters
-    if (argc < 2) {
+    if (argc < 2) { // Check the number of parameters
         // Tell the user how to run the program
         std::cerr << "Usage: " << argv[0] << " 'CONFIG_FILE'" << std::endl;
         return 1;
@@ -52,7 +51,6 @@ int main(int argc, char* argv[]) {
         HWND console = GetConsoleWindow();
         RECT r;
         GetWindowRect(console, &r); //stores the console's current dimensions
-
         MoveWindow(console, r.left, r.top, 1200, 800, TRUE); // 800 width, 100 height
     #endif
 
@@ -60,14 +58,9 @@ int main(int argc, char* argv[]) {
     std::cout << "AnCO\n";
     std::cout << "======" << std::endl << std::endl;
     config cfg = load_config(argv[1]);
-    //int n_colonies = 10;
-    //unsigned int n_ants_per_colony = 10;
-    //unsigned int max_steps = 5;
-    
 
     std::cout << "1) Graph dataset from file" << std::endl;
     graph_data_file dataset(cfg.dataset);
-    //graph_data_file dataset("../data/facebook_combined.txt");    
     log_time t;
     dataset.load_file();
     t.toc();    
@@ -90,13 +83,6 @@ int main(int argc, char* argv[]) {
     int i = 1000;
     unsigned int colony_meta_iteration = 0;
     while(true) {
-        
-        //std::cout << "\tIteration " << i << std::endl;
-        //t.tic();
-        //colony_meta.run();
-        //colony_meta.update();
-        //t.toc();
-        
         neighbourhood_type::_t_proximity_matrix prox_matrix = colony_meta.get_proximity_matrix();
         if (colony_meta_iteration != colony_meta.get_iteration()) {
             if (system("CLS")) system("clear");
