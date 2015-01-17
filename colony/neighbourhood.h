@@ -60,7 +60,7 @@ namespace AnCO {
             const _t_proximity_matrix& get_proximity_matrix() { return _proximity_matrix;};
             const unsigned int& get_iteration() const { return iteration;};
 
-            std::pair<float, int> get_metric() const {
+            float get_metric() const {
                 auto metric = 0.f;
                 // La proximidad es un valor positivo
                 for (std::size_t i = 0; i<_n_colonies; ++i) {
@@ -76,7 +76,7 @@ namespace AnCO {
                     steps += colonies[i]->get_num_steps();
                     }                
 
-                return std::make_pair(metric, steps);
+                return metric/(float)steps;
                 }
         protected:
             void update_prox_colonies() {

@@ -21,6 +21,7 @@
 
 #include "algorithm/aco_base.h"
 #include "algorithm/prox_base.h"
+    #include "algorithm/prox1.h"
 
 #include "colony/neighbourhood.h"
 #include "utils/threading.h"
@@ -38,7 +39,7 @@
 using namespace AnCO;
 
 typedef AnCO::colony<algorithm::aco_base> colony_type;
-typedef AnCO::neighbourhood<algorithm::aco_base, algorithm::prox_base> neighbourhood_type;
+typedef AnCO::neighbourhood<algorithm::aco_base, algorithm::prox1> neighbourhood_type;
 
 int main(int argc, char* argv[]) {
     if (argc < 2) { // Check the number of parameters
@@ -100,7 +101,7 @@ int main(int argc, char* argv[]) {
                 std::cout << std::endl;
                 }
             auto metric = colony_meta.get_metric();
-            std::cout << "\n\t metric: " << metric.first << " / " << metric.second << " = " << metric.first/(float)metric.second << std::endl;
+            std::cout << "\n\t metric: " << metric << std::endl;
             std::cout << std::flush;
             }
         else {

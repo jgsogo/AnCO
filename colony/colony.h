@@ -22,7 +22,6 @@ namespace AnCO {
         static unsigned int next_id;
         const unsigned int _id;
         };
-    unsigned int base_colony::next_id = 0;
 
     template <class aco_algorithm>
     class colony : public base_colony {
@@ -53,7 +52,7 @@ namespace AnCO {
                     typename aco_algorithm::_f_success suc_ = suc;
                     bool ret = aco_algorithm::run(_graph, _base_node, _id, suc_, path, _max_steps);
                     if (ret) {
-                        std::cout << "Col[" << _id << "] Ant[" << i << "] Succeded!!" << std::endl;
+                        //std::cout << "Col[" << _id << "] Ant[" << i << "] Succeded!!" << std::endl;
                         }
                     if (path.size()) {
                         _ant_paths.push_back(path);

@@ -1,4 +1,5 @@
 
+#pragma once
 
 #if ((__GNUC__>=4) || (__GNUC__==4 && __GNUC_MINOR__>=8) || (_MSC_VER >= 1700)) // GCC or VisualStudio>=2012
     #include <chrono>
@@ -12,9 +13,11 @@
         void tic() {
             t1 = std::chrono::high_resolution_clock::now();
             };
-        void toc() {
+        float toc() {
             std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
-            std::cout << "\t|| " << std::chrono::duration_cast<std::chrono::milliseconds>( t2 - t1 ).count() << " miliseconds ||" << std::endl;  
+            float ret = std::chrono::duration_cast<std::chrono::milliseconds>( t2 - t1 ).count();
+            std::cout << "\t|| " << ret << " miliseconds ||" << std::endl;  
+            return ret;
             };
         std::chrono::high_resolution_clock::time_point t1;
         };

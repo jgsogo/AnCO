@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include "algorithm/aco_base.h"
+#include "algorithm/prox_base.h"
 
 namespace AnCO {
 
@@ -27,6 +28,7 @@ namespace AnCO {
                 std::cout << "\t" << n1 << equal << "'" << n2 << "'" << std::endl;
                 if (n1.compare("dataset")==0) { hret.dataset = n2;}
                 if (n1.compare("n_colonies")==0) { hret.n_colonies = std::stoi(n2);}
+                
                 // Ant colony parameters
                 if (n1.compare("n_ants_per_colony")==0) { hret.n_ants_per_colony = std::stoi(n2);}
                 if (n1.compare("max_steps")==0) { hret.max_steps = std::stoi(n2);}
@@ -34,6 +36,12 @@ namespace AnCO {
                 if (n1.compare("beta")==0) { algorithm::aco_base::beta = std::stof(n2);}
                 if (n1.compare("pheromone_change_factor")==0) { algorithm::aco_base::pheromone_change_factor = std::stof(n2);}
                 if (n1.compare("pheromone_evaporation")==0) { algorithm::aco_base::pheromone_evaporation = std::stof(n2);}
+
+                // Proximity algorithm
+                if (n1.compare("pheromone_sensitivity")==0) { algorithm::prox_base::pheromone_sensitivity = std::stof(n2);}
+                if (n1.compare("proximity_decay_factor")==0) { algorithm::prox_base::proximity_decay_factor = std::stof(n2);}
+                if (n1.compare("gamma")==0) { algorithm::prox_base::gamma = std::stof(n2);}
+                if (n1.compare("delta")==0) { algorithm::prox_base::delta = std::stof(n2);}
                 }
             }
         std::cout << std::endl;
