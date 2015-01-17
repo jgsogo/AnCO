@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
     AnCO::memgraph graph(dataset);
     t.toc();
 
-    std::cout << "2) Create neighbourhood of '" << cfg.n_colonies << "' colonies" << std::endl;
+    std::cout << "3) Create neighbourhood of '" << cfg.n_colonies << "' colonies" << std::endl;
     t.tic();
     neighbourhood_type colony_meta(graph, cfg.n_colonies, cfg.n_ants_per_colony, cfg.max_steps);
     utils::endless::_t_task colony_meta_task = [&colony_meta, &graph](){
@@ -80,7 +80,7 @@ int main(int argc, char* argv[]) {
     utils::endless colony_meta_endless(colony_meta_task);
     t.toc();
 
-    std::cout << "3) Build metagraph" << std::endl;
+    std::cout << "4) Build metagraph" << std::endl;
     colony_meta_endless.start();
 
     int i = 1000;

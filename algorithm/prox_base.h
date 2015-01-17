@@ -32,18 +32,21 @@ namespace AnCO {
                     std::size_t n_colonies = matrix.size(); //! TODO: for_each
                     for (int i = 0; i<n_colonies; i++) {
                         for (int j=0; j<n_colonies; j++) { // ¡no es simétrica puesto que el grafo puede ser dirigido!
-                            matrix[i][j] = (1-proximity_decay_factor)*matrix[i][j];
+                            matrix[i][j] = (1.f - proximity_decay_factor)*matrix[i][j];
                             }
                         }
                     };
 
                 static float proximity_value(const float& pheromone, const int& distance) {
-                    return pow(pheromone, gamma)/pow((float)distance, delta);
+                    assert(distance>0);
+                    float ret = pow(pheromone, gamma)/pow((float)distance, delta);
+                    assert(ret >= 0.f);
+                    return std::move(ret);
                     };
 
                 static std::vector<float> compute_proximity(const _t_ant_paths& paths, const std::map<graph::_t_node_id, int>& distances, std::size_t init_colony, std::size_t end_colony) {
                     std::size_t n_colonies = end_colony - init_colony + 1;
-                    std::vector<float> ret; ret.reserve(n_colonies);
+                    std::vector<float> ret(n_colonies, 0.f);
 
                     std::for_each(paths.begin(), paths.end(), [&ret, &distances, &init_colony, &end_colony](const _t_ant_path& path) {
                         for(_t_ant_path::const_iterator it = path.begin(); it != path.end(); ++it) {
@@ -53,7 +56,7 @@ namespace AnCO {
                                 //std::cout << i << ": " << (*it)->data.pheromone[i] << " * " << d << std::endl;
                                 }
                             }
-                        });                    
+                        });                   
                     return ret;
                     }
 

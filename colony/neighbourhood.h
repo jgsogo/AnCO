@@ -17,23 +17,22 @@ namespace AnCO {
                 unsigned int n_colonies,
                 unsigned int n_ants,// = GLOBALS::n_ants_per_colony,
                 unsigned int max_steps) : _graph(graph), _n_colonies(n_colonies) {
-                
-                _proximity_matrix.reserve(_n_colonies);
+                _proximity_matrix.resize(_n_colonies);
                 for (std::size_t ii=0; ii<_n_colonies;  ++ii) {
-                    _proximity_matrix[ii].reserve(_n_colonies);
+                    _proximity_matrix[ii].resize(_n_colonies);
                     for (std::size_t jj=0; jj<_n_colonies;  ++jj) {
                         _proximity_matrix[ii][jj] = 0.f;
                         }
                     }                
 
-                colonies.reserve(_n_colonies);
                 _init_colony = base_colony::next_id;
                 _end_colony = _init_colony + _n_colonies;
                 for (std::size_t i = 0; i<_n_colonies; i++) {
-                    colonies[i] = std::make_shared<colony_type>(_graph, n_ants, max_steps);
+                    colonies.push_back(std::make_shared<colony_type>(_graph, n_ants, max_steps));
                     }
                 this->reset();
                 };
+
             ~neighbourhood() {};
 
             void reset() {
@@ -91,6 +90,7 @@ namespace AnCO {
                     // distance from colony 'i' to the rest 'j'
                     for (std::size_t j = 0; j<_n_colonies; ++j) {
                         if (i != j) {
+                            assert(prox[j]>=0.f);
                             _proximity_matrix[i][j] += prox[j];
                             }
                         }
