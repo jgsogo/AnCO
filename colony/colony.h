@@ -14,6 +14,9 @@ namespace AnCO {
     template <class aco_algorithm>
     class colony {
         public:
+            typedef aco_algorithm aco_algorithm_impl;
+            
+        public:
             colony( graph& graph, 
                     unsigned int n_ants,// = GLOBALS::n_ants_per_colony,
                     unsigned int max_steps

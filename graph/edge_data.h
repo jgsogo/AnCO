@@ -5,13 +5,14 @@
 namespace AnCO {
     
     struct edge_data {
-        edge_data() : distance(1.f) {
-            for (int i=0; i<GLOBALS::n_max_colonies; i++) {
-                pheromone[i] = GLOBALS::min_pheromone;
+        static const std::size_t pheromone_size = GLOBALS::n_max_colonies;
+        edge_data() : length(1.f) {
+            for (std::size_t i=0; i<pheromone_size; i++) {
+                pheromone[i] = 0.f; // El hecho de establecer una feromona mínima depende del algoritmo que se esté usando
                 }
             }
-        float pheromone[GLOBALS::n_max_colonies];
-        float distance;
+        float pheromone[pheromone_size];
+        float length;
         };
 
     }

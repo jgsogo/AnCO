@@ -48,6 +48,7 @@ namespace AnCO {
                             for (std::size_t i = 0; i<n_colonies; ++i) {
                                 int d = distances.find((*it)->end)->second;
                                 ret[i] += prox_base<n_colonies>::proximity_value( (*it)->data.pheromone[i], d);
+                                //std::cout << i << ": " << (*it)->data.pheromone[i] << " * " << d << std::endl;
                                 }
                             }
                         });                    

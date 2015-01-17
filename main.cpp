@@ -73,7 +73,10 @@ int main(int argc, char* argv[]) {
     std::cout << "2) Create neighbourhood of '" << cfg.n_colonies << "' colonies" << std::endl;
     t.tic();
     neighbourhood_type colony_meta(graph, cfg.n_ants_per_colony, cfg.max_steps);
-    utils::endless::_t_task colony_meta_task = [&colony_meta](){colony_meta.run(); colony_meta.update();};
+    utils::endless::_t_task colony_meta_task = [&colony_meta, &graph](){
+        colony_meta.run(); colony_meta.update();
+        colony_type::aco_algorithm_impl::update_graph(graph);
+        };
     utils::endless colony_meta_endless(colony_meta_task);
     t.toc();
 

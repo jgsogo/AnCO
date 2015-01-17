@@ -8,9 +8,10 @@ namespace AnCO {
         float aco_base::alpha = 1.f;
         float aco_base::beta = 2.5f;
         float aco_base::pheromone_change_factor = 1.f;
+        float aco_base::pheromone_evaporation = 0.5f;
 
         float aco_base::prob_edge(const edge_ptr& ptr, const unsigned int& id) {
-            return pow(ptr->data.pheromone[id], alpha)* pow(1/ptr->data.distance, beta);
+            return pow(ptr->data.pheromone[id], alpha)* pow(1/ptr->data.length, beta);
             }
 
         int aco_base::get_feasible_edges(graph& graph, const graph::_t_node_id& node, std::vector<edge_ptr>& feasible_edges, const std::set<graph::_t_node_id>& visited) {
@@ -80,5 +81,17 @@ namespace AnCO {
                 ptr->data.pheromone[pherom_id] += _pheromone_add;
                 });
             }
+
+        void aco_base::update_graph(graph& graph) {
+            auto edges = graph.get_edges_outgoing();
+            std::for_each(edges.begin(), edges.end(), [](std::pair<graph::_t_node_id, std::vector<edge_ptr>> item){
+                std::for_each(item.second.begin(), item.second.end(), [](edge_ptr ptr){
+                    for (std::size_t jj=0; jj<edge_data::pheromone_size;  ++jj) {
+                        ptr->data.pheromone[jj] *= aco_base::pheromone_evaporation;
+                        }
+                    });
+                });
+            }
+
         }
     }
