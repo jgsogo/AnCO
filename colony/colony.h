@@ -54,6 +54,11 @@ namespace AnCO {
                 };
             
             const _t_ant_paths& get_paths() const { return _ant_paths; };
+
+            const int get_num_steps() const {
+                return _n_ants*_max_steps; //! TODO: Esto es el número de pasos máxímo,
+                                            //      deben devolverse los pasos de la última iteración
+                }
         protected:
             void update_pheromone() {
                 for (_t_ant_paths::const_iterator it = _ant_paths.begin(); it != _ant_paths.end(); ++it) {

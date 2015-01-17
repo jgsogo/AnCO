@@ -54,6 +54,25 @@ namespace AnCO {
 
             const _t_proximity_matrix& get_proximity_matrix() { return _proximity_matrix;};
             const unsigned int& get_iteration() const { return iteration;};
+
+            std::pair<float, int> get_metric() const {
+                auto metric = 0.f;
+                // La proximidad es un valor positivo
+                for (std::size_t i = 0; i<n_colonies; ++i) {
+                    for (std::size_t j = 0; j<n_colonies; ++j) { // la matriz no es simétrica
+                        metric += _proximity_matrix[i][j];
+                        }
+                    }
+                metric /= 2;
+
+                // El número de intentos realizados para alcanzar ese valor es negativo
+                auto steps = 0;
+                for (std::size_t i = 0; i < n_colonies; ++i) {
+                    steps += colonies[i]->get_num_steps();
+                    }                
+
+                return std::make_pair(metric, steps);
+                }
         protected:
             void update_prox_colonies() {
                 prox_algorithm::update_proximity_matrix(_proximity_matrix);

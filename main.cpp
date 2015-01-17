@@ -95,10 +95,13 @@ int main(int argc, char* argv[]) {
                 std::cout << "\n\t - col[" << ii << "]::neighbours:\t";
                 auto v = prox_matrix[ii];
                 for (int jj=0; jj<cfg.n_colonies; ++jj) {
-                    std::cout << std::fixed << std::setw(7) << std::setprecision(2) << std::setfill(' ') << v[jj] << "  ";
+                    std::cout << std::fixed << std::setw(7) << std::setprecision(3) << std::setfill(' ') << v[jj] << "  ";
                     }
                 std::cout << std::endl;
                 }
+            auto metric = colony_meta.get_metric();
+            std::cout << "\n\t metric: " << metric.first << " / " << metric.second << " = " << metric.first/(float)metric.second << std::endl;
+            std::cout << std::flush;
             }
         else {
             Sleep(500);

@@ -87,7 +87,7 @@ namespace AnCO {
             std::for_each(edges.begin(), edges.end(), [](std::pair<graph::_t_node_id, std::vector<edge_ptr>> item){
                 std::for_each(item.second.begin(), item.second.end(), [](edge_ptr ptr){
                     for (std::size_t jj=0; jj<edge_data::pheromone_size;  ++jj) {
-                        ptr->data.pheromone[jj] *= aco_base::pheromone_evaporation;
+                        ptr->data.pheromone[jj] *= (1.f - aco_base::pheromone_evaporation);
                         }
                     });
                 });
