@@ -38,7 +38,7 @@
 using namespace AnCO;
 
 typedef AnCO::colony<algorithm::aco_base> colony_type;
-typedef AnCO::neighbourhood<10, algorithm::aco_base, algorithm::prox_base> neighbourhood_type;
+typedef AnCO::neighbourhood<algorithm::aco_base, algorithm::prox_base> neighbourhood_type;
 
 int main(int argc, char* argv[]) {
     if (argc < 2) { // Check the number of parameters
@@ -72,7 +72,7 @@ int main(int argc, char* argv[]) {
 
     std::cout << "2) Create neighbourhood of '" << cfg.n_colonies << "' colonies" << std::endl;
     t.tic();
-    neighbourhood_type colony_meta(graph, cfg.n_ants_per_colony, cfg.max_steps);
+    neighbourhood_type colony_meta(graph, cfg.n_colonies, cfg.n_ants_per_colony, cfg.max_steps);
     utils::endless::_t_task colony_meta_task = [&colony_meta, &graph](){
         colony_meta.run(); colony_meta.update();
         colony_type::aco_algorithm_impl::update_graph(graph);

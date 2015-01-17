@@ -11,8 +11,21 @@ namespace AnCO {
     typedef std::vector<edge_ptr> _t_ant_path;
     typedef std::vector<_t_ant_path> _t_ant_paths;
 
+    class base_colony {
+        // This class is just to keep track of colony ids.
+        public:
+            base_colony() : _id(next_id++) {
+                if (next_id > GLOBALS::n_max_colonies) { throw std::runtime_error("Max num of colonies reached; change N_COLONIES definition");}
+                }
+            const unsigned int& get_id() const { return _id;};
+
+        static unsigned int next_id;
+        const unsigned int _id;
+        };
+    unsigned int base_colony::next_id = 0;
+
     template <class aco_algorithm>
-    class colony {
+    class colony : public base_colony {
         public:
             typedef aco_algorithm aco_algorithm_impl;
             
@@ -20,14 +33,13 @@ namespace AnCO {
             colony( graph& graph, 
                     unsigned int n_ants,// = GLOBALS::n_ants_per_colony,
                     unsigned int max_steps
-                    ) : _graph(graph), _id(next_id++), _n_ants(n_ants), _max_steps(max_steps) {
-                assert(_n_ants <= GLOBALS::n_max_ants_per_colony);
-                if (next_id > GLOBALS::n_max_colonies) { throw std::runtime_error("Max num of colonies reached; change N_COLONIES definition");}
+                    ) : _graph(graph), _n_ants(n_ants), _max_steps(max_steps) {
+                assert(_n_ants <= GLOBALS::n_max_ants_per_colony);                
                 }
 
             ~colony() {};
 
-            const unsigned int& get_id() const { return _id;};
+            
 
             virtual void set_base_node(graph::_t_node_id base_node) {
                 _base_node = base_node;
@@ -67,8 +79,6 @@ namespace AnCO {
                 };
 
         protected:
-            static unsigned int next_id;
-            const unsigned int _id;
             graph::_t_node_id _base_node;
             graph& _graph;
             // ants constants
@@ -76,9 +86,5 @@ namespace AnCO {
             int _max_steps;
             _t_ant_paths _ant_paths;
         };
-
-    // Inicialización de variables miembro.
-    template <class T>
-    unsigned int colony<T>::next_id = 0;
 
     }
