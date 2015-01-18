@@ -39,7 +39,7 @@
 
 using namespace AnCO;
 
-typedef algorithm::prox_base prox_algorithm;
+typedef algorithm::prox1 prox_algorithm;
 typedef algorithm::aco_random aco_algorithm;
 
 typedef AnCO::colony<aco_algorithm> colony_type;

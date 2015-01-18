@@ -83,6 +83,7 @@ namespace AnCO {
 
             void print(std::ostream& os) const {
                 std::cout << "\t\t\tprox\tneig\tcolonies...";
+                float total_metric = 0.f;
                 for (auto it = colonies.begin(); it != colonies.end(); ++it) {
                     const unsigned int& id = (*it)->get_id();                    
                     std::cout << "\n - col[" << std::setw(2) << std::setfill('0') << id << "]::" << std::setw(5) << std::setfill(' ') << (*it)->get_base_node() << ": ";
@@ -90,6 +91,7 @@ namespace AnCO {
                     float metric = (*it)->get_metric();                    
                     auto prox = (*it)->get_proximity_vector();
                     prox = prox_algorithm::_rel_proximity((*it)->get_id(), prox);
+                    total_metric += std::accumulate(prox.begin(), prox.end(), 0.f);
                     
                     std::cout << metric << " |\t";
                     std::cout << std::setw(3) << std::setfill(' ') << (*it)->get_neighbourhood().size() << " |\t";
@@ -103,16 +105,21 @@ namespace AnCO {
                         if (id == jj ) {
                             utils::color::set_color(utils::color::GREEN);                            
                             std::cout << std::fixed << "  -----  ";
-                            }
+                            }                            
                         else {
+                            if (prox[jj] == 0.f) {
+                                utils::color::set_color(utils::color::RED);
+                                }
                             std::cout << std::fixed << std::setw(7) << std::setprecision(3) << std::setfill(' ') << prox[jj] << "  ";
                             }
                         utils::color::set_color(color);
                         }
                     utils::color::set_color(utils::color::DEFAULT);
-
-                    //(*it)->print(os);
                     }
+                std::cout << "\nneighbourhood_metric: " << std::endl;
+                std::cout << "\t total: " << total_metric << std::endl;
+                std::cout << "\t max: " << (pow(float(colonies.size()-1), 2)) << std::endl;
+                std::cout << "\t value: " << total_metric/(pow(float(colonies.size()-1), 2));                
                 }
 
         protected:
