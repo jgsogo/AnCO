@@ -9,10 +9,14 @@ namespace AnCO {
     template <class aco_algorithm, class prox_algorithm>
     class colony_neighbourhood : public colony<aco_algorithm> {
         public:
+            typedef typename prox_algorithm::_t_proximity_array _t_proximity_array;
+        public:
             colony_neighbourhood(   
                 graph& graph, 
                 unsigned int n_ants,// = GLOBALS::n_ants_per_colony,
                 unsigned int max_steps) : colony<aco_algorithm>(graph, n_ants, max_steps) {
+                    prox_algorithm::initialize(_prox);
+                    prox_algorithm::initialize(_prox_rel);
                 }
 
             ~colony_neighbourhood() {};
@@ -35,14 +39,22 @@ namespace AnCO {
                         this->update_neighbourhood(path);
                         }
                     });
-                _prox = prox_algorithm::compute_proximity(colony<aco_algorithm>::_ant_paths, _neighbourhood);
+                // Actualización de la función de proximidad
+                _t_proximity_array prox = prox_algorithm::compute_proximity(colony<aco_algorithm>::_ant_paths, _neighbourhood);
+                for (auto i =0; i<GLOBALS::n_max_colonies; ++i) {
+                    _prox[i] = prox[i] + (1-prox_algorithm::proximity_decay)*_prox[i];
+                    }
+                _prox_rel = prox_algorithm::_rel_proximity(this->get_id(), _prox);
                 };
             
             const std::map<graph::_t_node_id, int>& get_neighbourhood() const { return _neighbourhood;}
-            const std::vector<float>& get_proximity_vector() const { return _prox; };
+            
+            const _t_proximity_array& get_proximity_vector() const { 
+                return _prox_rel;
+                };
 
             const float get_metric() const {
-                return prox_algorithm::metric(this->get_id(), _prox);
+                return prox_algorithm::metric(this->get_id(), _prox_rel);
                 }
 
             virtual void print(std::ostream& os) const {
@@ -50,30 +62,26 @@ namespace AnCO {
                 os << " - neighbourhood: " << _neighbourhood.size() << std::endl;
                 os << " - proximity vector: " << std::endl;
 
-                //os << "!1" << std::endl;
                 const unsigned int& id = this->get_id();
-                auto prox = prox_algorithm::_rel_proximity(id, _prox);
-                    
-                //os << "!2" << std::endl;
+
                 auto metric = this->get_metric();
                 std::cout << metric << " |\t";
 
-                //os << "!3" << std::endl;
                 unsigned color = utils::color::DEFAULT;
                 if (metric < 0.f) {
                     color = utils::color::RED;
                     utils::color::set_color(color);
                     }
-                for (int jj=0; jj<prox.size(); ++jj) {
+                for (int jj=0; jj<base_colony::next_id; ++jj) {
                     if (id == jj ) {
                         utils::color::set_color(utils::color::GREEN);                            
                         std::cout << std::fixed << "  -----  ";
                         }                            
                     else {
-                        if (prox[jj] == 0.f) {
+                        if (_prox_rel[jj] == 0.f) {
                             utils::color::set_color(utils::color::RED);
                             }
-                        std::cout << std::fixed << std::setw(7) << std::setprecision(3) << std::setfill(' ') << prox[jj] << "  ";
+                        std::cout << std::fixed << std::setw(7) << std::setprecision(3) << std::setfill(' ') << _prox_rel[jj] << "  ";
                         }
                     utils::color::set_color(color);
                     }
@@ -105,7 +113,8 @@ namespace AnCO {
 
         protected:
             typename prox_algorithm::_t_neighbourhood_map _neighbourhood;
-            std::vector<float> _prox;
+            _t_proximity_array _prox;
+            _t_proximity_array _prox_rel;
             //std::map<graph::_t_node_id, int> _neighbourhood; // nodes
         };
 

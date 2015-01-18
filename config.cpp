@@ -41,9 +41,10 @@ namespace AnCO {
 
                 // Proximity algorithm
                 if (n1.compare("pheromone_sensitivity")==0) { algorithm::prox_base::pheromone_sensitivity = std::stof(n2);}
-                if (n1.compare("proximity_decay_factor")==0) { algorithm::prox_base::proximity_decay_factor = std::stof(n2);}
+                if (n1.compare("proximity_decay")==0) { algorithm::prox_base::proximity_decay = std::stof(n2);}
                 if (n1.compare("gamma")==0) { algorithm::prox_base::gamma = std::stof(n2);}
                 if (n1.compare("delta")==0) { algorithm::prox_base::delta = std::stof(n2);}
+                if (n1.compare("neighbourhood_penalization")==0) { algorithm::prox_base::neighbourhood_penalization = std::stoi(n2);}
                 }
             }
         std::cout << std::endl;
