@@ -9,8 +9,12 @@ namespace AnCO {
         // Algoritmo ACO base
         class prox1 : public prox_base {
             public:
-
-                static std::vector<float> compute_proximity(const _t_ant_paths& paths, const std::map<graph::_t_node_id, int>& distances, std::size_t init_colony, std::size_t end_colony) {
+                /*
+                static float proximity_value(const float& pheromone, const int& distance) {
+                    return (std::min)(1.f, prox_base::proximity_value(pheromone, distance));
+                    };
+                */
+                static std::vector<float> compute_proximity(const _t_ant_paths& paths, const std::map<graph::_t_node_id, int>& distances, std::size_t init_colony = 0, std::size_t end_colony = base_colony::next_id-1) {
                     std::size_t n_colonies = end_colony - init_colony + 1;
                     // La feromona máxima del vecindario (si todos los nodos tuvieran como el que más)
                     float max_pheromone = 0.f;
@@ -27,7 +31,7 @@ namespace AnCO {
                                 if(inserted) {
                                     int d = distances.find((*it)->end)->second;
                                     for (std::size_t i = init_colony; i<=end_colony; ++i) {
-                                        it_node->second[i-init_colony] = prox_base::proximity_value( (*it)->data.pheromone[i], d);
+                                        it_node->second[i-init_colony] = prox1::proximity_value( (*it)->data.pheromone[i], d);
                                         }
                                     }
                                 }
@@ -41,19 +45,7 @@ namespace AnCO {
                             ret[i] += item.second[i];
                             }
                         });
-                    /*
-                    std::vector<float> other = prox_base::compute_proximity(paths, distances, init_colony, end_colony);
-                    std::cout << "other: \t";
-                    for (std::size_t i = init_colony; i<=end_colony; ++i) {
-                        std::cout << other[i] << " | ";
-                        }
-                    std::cout << std::endl;
-                    std::cout << "me  : \t";
-                    for (std::size_t i = init_colony; i<=end_colony; ++i) {
-                        std::cout << ret[i] << " | ";
-                        }
-                    std::cout << std::endl;
-                    */
+
                     return ret;
                     }
 

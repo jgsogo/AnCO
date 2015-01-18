@@ -36,9 +36,15 @@ namespace AnCO {
                     this->penalize_neighbourhood();
                     this->update_neighbourhood(path);
                     });
+                _prox = prox_algorithm::compute_proximity(colony<aco_algorithm>::_ant_paths, _neighbourhood);
                 };
             
-            const std::map<graph::_t_node_id, int>& get_neighbourhood() { return _neighbourhood;}
+            const std::map<graph::_t_node_id, int>& get_neighbourhood() const { return _neighbourhood;}
+            const std::vector<float>& get_proximity_vector() const { return _prox; };
+
+            const float get_metric() const {
+                return prox_algorithm::metric(this->get_id(), _prox);
+                }
 
         protected:
             void penalize_neighbourhood() {
@@ -65,6 +71,7 @@ namespace AnCO {
 
         protected:
             typename prox_algorithm::_t_neighbourhood_map _neighbourhood;
+            std::vector<float> _prox;
             //std::map<graph::_t_node_id, int> _neighbourhood; // nodes
         };
 

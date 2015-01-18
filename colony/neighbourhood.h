@@ -1,7 +1,9 @@
 
 #pragma once
 
+#include <algorithm>
 #include "colony_neighbourhood.h"
+#include "../utils/color.h"
 
 namespace AnCO {
 
@@ -53,7 +55,7 @@ namespace AnCO {
                 for (std::size_t i = 0; i < _n_colonies; ++i) {
                     colonies[i]->update();
                     }
-                this->update_prox_colonies();
+                //this->update_prox_colonies();
                 iteration++;
                 };
 
@@ -78,25 +80,59 @@ namespace AnCO {
 
                 return metric/(float)steps;
                 }
+
+            void print(std::ostream& os) {
+                std::cout << "\t\t\tprox\tneig\tcolonies...";
+                for (auto it = colonies.begin(); it != colonies.end(); ++it) {
+                    const unsigned int& id = (*it)->get_id();
+                    std::cout << "\n - col[" << std::setw(2) << std::setfill('0') << id << "]::" << std::setw(5) << std::setfill(' ') << (*it)->get_base_node() << ": ";
+
+                    float metric = (*it)->get_metric();                    
+                    auto prox = (*it)->get_proximity_vector();
+                    std::cout << std::fixed << std::setw(7) << std::setprecision(3) << std::setfill(' ');
+                    std::cout << metric << " |\t";
+                    std::cout << std::setw(3) << std::setfill(' ') << (*it)->get_neighbourhood().size() << " |\t";
+                    if (metric < 0.f) {
+                        utils::color::set_color(utils::color::RED);
+                        }
+                    for (int jj=0; jj<(std::min)(10, (int)_n_colonies); ++jj) {
+                        if (id != jj ) {
+                            std::cout << prox[jj] << "  ";
+                            }
+                        else { std::cout << "-----  "; }
+                        std::cout << "  ";
+                        }
+                    utils::color::set_color(utils::color::DEFAULT);
+                    }
+                /*
+                for (int ii=0; ii<_n_colonies; ++ii) {
+                    std::cout << "\n\t - col[" << ii << "]::neighbours:\t";
+                    auto v = _proximity_matrix[ii];
+                    for (int jj=0; jj<(std::min)(10, (int)_n_colonies); ++jj) {
+                        std::cout << std::fixed << std::setw(7) << std::setprecision(3) << std::setfill(' ') << v[jj] << "  ";
+                        }
+                    //std::cout << std::endl;
+                    }
+                auto metric = this->get_metric();
+                std::cout << "\n\t metric: " << metric << std::endl;
+                */
+                }
+
         protected:
+            /*
             void update_prox_colonies() {
                 prox_algorithm::update_proximity_matrix(_proximity_matrix);
-
                 for (std::size_t i = 0; i<_n_colonies; ++i) {
-                    const _t_ant_paths& paths = colonies[i]->get_paths();
-                    const std::map<graph::_t_node_id, int>& neighbourhood = colonies[i]->get_neighbourhood();
-                    
-                    std::vector<float> prox = prox_algorithm::compute_proximity(paths, neighbourhood, _init_colony, _end_colony);
-                    // distance from colony 'i' to the rest 'j'
-                    for (std::size_t j = 0; j<_n_colonies; ++j) {
-                        if (i != j) {
+                    const std::vector<float>& prox = colonies[i]->get_proximity_vector();
+                    for (std::size_t j = _init_colony; j<=_end_colony; ++j) {
+                        if (i != (j-_init_colony)) {
                             assert(prox[j]>=0.f);
-                            _proximity_matrix[i][j] += prox[j];
+                            _proximity_matrix[i][j-_init_colony] = prox[j];
                             }
                         }
                     }
                 };
-
+            */
         protected:
             unsigned int iteration;
             graph& _graph;

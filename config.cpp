@@ -5,6 +5,7 @@
 #include <sstream>
 #include "algorithm/aco_base.h"
 #include "algorithm/prox_base.h"
+#include "utils/random.h"
 
 namespace AnCO {
 
@@ -26,6 +27,7 @@ namespace AnCO {
                     }
                 ss >> equal >> n2;
                 std::cout << "\t" << n1 << equal << "'" << n2 << "'" << std::endl;
+                if (n1.compare("seed")==0) { utils::random::init_random(std::stoi(n2));}
                 if (n1.compare("dataset")==0) { hret.dataset = n2;}
                 if (n1.compare("n_colonies")==0) { hret.n_colonies = std::stoi(n2);}
                 

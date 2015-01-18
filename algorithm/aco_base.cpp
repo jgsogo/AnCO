@@ -18,6 +18,7 @@ namespace AnCO {
             std::pair<std::vector<edge_ptr>, std::vector<edge_ptr>> edges_pair;
             graph.get_edges(node, edges_pair);
             feasible_edges = edges_pair.first;
+            feasible_edges.insert(feasible_edges.end(), edges_pair.second.begin(), edges_pair.second.end());
 
             // Delete already visited ones
             feasible_edges.erase(std::remove_if(feasible_edges.begin(), feasible_edges.end(), [&visited](edge_ptr ptr) -> bool {

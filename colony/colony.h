@@ -2,6 +2,7 @@
 #pragma once
 
 #include <array>
+#include <iostream>
 #include "../graph/graph.h"
 #include "../globals.h"
 #include "success.h"
@@ -70,6 +71,7 @@ namespace AnCO {
                 return _n_ants*_max_steps; //! TODO: Esto es el número de pasos máxímo,
                                             //      deben devolverse los pasos de la última iteración
                 }
+            const graph::_t_node_id& get_base_node() const { return _base_node;}
         protected:
             void update_pheromone() {
                 for (_t_ant_paths::const_iterator it = _ant_paths.begin(); it != _ant_paths.end(); ++it) {
