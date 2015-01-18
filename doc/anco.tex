@@ -1,0 +1,70 @@
+% This is LLNCS.DEM the demonstration file of
+% the LaTeX macro package from Springer-Verlag
+% for Lecture Notes in Computer Science,
+% version 2.4 for LaTeX2e as of 16. April 2010
+%
+\documentclass{llncs}
+%
+\usepackage{makeidx}  % allows for indexgeneration
+%
+\begin{document}
+%
+\mainmatter              % start of the contributions
+%
+\title{Búsqueda de Camino Más Corto en Grafos Vastos Dinámicos Utilizando Colonias de Hormigas (Trabajo en Curso)}
+%
+\titlerunning{Collaborative ACO}  % abbreviated title (for running head)
+%                                     also used for the TOC unless
+%                                     \toctitle is used
+%
+\author{Javier Garc{\'i}a Sogo}
+%
+\authorrunning{Javier Garc{\'i}a Sogo} % abbreviated author list (for running head)
+%
+%%%% list of authors for the TOC (use if author list has to be modified)
+\tocauthor{Javier Garc{\'i}a Sogo}
+%
+\institute{Universidad Polit{\'e}cnica de Madrid, Madrid, España}
+
+\maketitle              % typeset the title of the contribution
+
+\begin{abstract}
+Ant Colony Optimization is a well known metaheuristic applied to solve a large number of problems presented in a graph. 
+. \dots
+\keywords{Ant Colony Optimization, huge graph, dynamic graph}
+\end{abstract}
+%
+\section{Introduction}
+%
+Los grafos se han utilizado para plantear distintos tipos de problemas de muy variada complejidad desde que aparecieron por vez primera.
+Muchos de estos problemas se enfocan de tal forma que su solución consiste en encontrar caminos entre dos nodos cualesquiera de un grafo. 
+Ante esta situación han aparecido muchos artículos aportando algoritmos y metodologías al estado del arte, entre ellos se encuentran los algoritmos basados en colonias de hormigas \cite{Dorigo1992}.
+
+En la actualidad algunos de estos problemas plantean nuevos retos conforme van apareciendo nuevos requisitos: los grafos cada vez son mayores, la estructura de los mismos puede ser cambiante con nuevos nodos y enlaces que aparecen o son eliminados, e incluso el coste asociado a cada arista puede variar también.
+Además, a todo esto hay que unir el tiempo de respuesta, un requisito que cada vez es más importante, y que en muchas aplicaciones en tiempo real o limitado se convierte en la principal restricción, relegando a un segundo plano la obtención del camino óptimo \cite{Rivero2011}.
+
+
+
+
+
+%
+\subsection{Collaborative ACO}
+%
+
+\section{Conclusions and future work}
+
+% FUTURE WORK
+% Casos en los que hay que atravesar una colonia en grafos no bidireccionales
+
+% Tamaño del grafo --> base de datos
+
+% Movimiento de las colonias - prominencia
+
+
+%
+% ---- Bibliography ----
+%
+\include{anco_bib}
+
+
+\end{document}
