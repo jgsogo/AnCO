@@ -1,0 +1,23 @@
+
+seed = 1
+
+# Archivo de entrada y directorio de salida
+output = aco_10_10
+dataset = data/Slashdot0902.txt
+
+# Neighbourhood
+n_colonies = 10
+
+# Ant colony
+n_ants_per_colony = 10
+max_steps = 50
+alpha = 1
+beta = 2.5
+pheromone_change_factor = 1
+pheromone_evaporation = 0.5
+
+# Proximity parameters
+pheromone_sensitivity = 0.1
+proximity_decay_factor = 0.5
+gamma = 1.f
+delta = 1.f
