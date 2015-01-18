@@ -89,6 +89,7 @@ namespace AnCO {
 
                     float metric = (*it)->get_metric();                    
                     auto prox = (*it)->get_proximity_vector();
+                    prox = prox_algorithm::_rel_proximity((*it)->get_id(), prox);
                     
                     std::cout << metric << " |\t";
                     std::cout << std::setw(3) << std::setfill(' ') << (*it)->get_neighbourhood().size() << " |\t";
@@ -101,13 +102,16 @@ namespace AnCO {
                     for (int jj=0; jj<(std::min)(10, (int)_n_colonies); ++jj) {
                         if (id == jj ) {
                             utils::color::set_color(utils::color::GREEN);                            
+                            std::cout << std::fixed << "  -----  ";
                             }
-                        std::cout << std::fixed << std::setw(7) << std::setprecision(3) << std::setfill(' ') << prox[jj] << "  ";
+                        else {
+                            std::cout << std::fixed << std::setw(7) << std::setprecision(3) << std::setfill(' ') << prox[jj] << "  ";
+                            }
                         utils::color::set_color(color);
                         }
                     utils::color::set_color(utils::color::DEFAULT);
 
-                    (*it)->print(os);
+                    //(*it)->print(os);
                     }
                 }
 
