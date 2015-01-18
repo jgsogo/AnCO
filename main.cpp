@@ -111,7 +111,7 @@ int main(int argc, char* argv[]) {
             colony_meta_iteration = colony_meta.get_iteration();            
             std::cout << "Iteration " << colony_meta_iteration << std::endl;
             
-            colony_meta.print(std::cout);
+            colony_meta.print2(std::cout);
             
             /*
             auto test_prox = test_colony.get_proximity_vector();

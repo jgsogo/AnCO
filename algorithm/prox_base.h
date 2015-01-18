@@ -86,6 +86,35 @@ namespace AnCO {
                     return total/n_neighbours;
                     }
 
+                static _t_proximity_matrix _rel_proximity(const _t_proximity_matrix& in) {
+                    _t_proximity_matrix ret = in;
+                    // Get max element
+                    for (unsigned i=0; i<in.size(); ++i) {
+                        ret[i][i] = 0.f;
+                        }
+                    auto maximum = 0.f;
+                    for (unsigned i=0; i<in.size(); ++i) {
+                        maximum = (std::max)(maximum, *std::max_element(ret[i].begin(), ret[i].end()));
+                        }
+                    // Normalize matrix
+                    std::for_each(ret.begin(), ret.end(), [maximum](std::vector<float> v){
+                        for (auto it = v.begin(); it!=v.end(); ++it) {
+                            (*it) /= maximum;
+                            }
+                        });
+
+                    return std::move(ret);
+                    }
+
+                static float metric(const _t_proximity_matrix& in) {
+                    auto rel = _rel_proximity(in);
+                    auto total = 0.f;
+                    std::for_each(rel.begin(), rel.end(), [&total](std::vector<float> v){
+                        total += std::accumulate(v.begin(), v.end(), 0.f);
+                        });
+                    return total/pow(float(in.size()-1),2);
+                    }
+
             public:
                 static float pheromone_sensitivity;
                 static float proximity_decay_factor; // coeficiente de actualización de la distancia a otro hormiguero.

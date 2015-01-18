@@ -55,7 +55,7 @@ namespace AnCO {
                 for (std::size_t i = 0; i < _n_colonies; ++i) {
                     colonies[i]->update();
                     }
-                //this->update_prox_colonies();
+                this->update_prox_colonies();
                 iteration++;
                 };
 
@@ -63,24 +63,36 @@ namespace AnCO {
             const unsigned int& get_iteration() const { return iteration;};
 
             float get_metric() const {
-                auto metric = 0.f;
-                // La proximidad es un valor positivo
-                for (std::size_t i = 0; i<_n_colonies; ++i) {
-                    for (std::size_t j = 0; j<_n_colonies; ++j) { // la matriz no es simétrica
-                        metric += _proximity_matrix[i][j];
+                return prox_algorithm::metric(_proximity_matrix);
+                }
+            
+            void print2(std::ostream& os) const {
+                auto prox_matrix = prox_algorithm::_rel_proximity(_proximity_matrix);
+                os << "\t\t  colonies...";
+                for (auto it = colonies.begin(); it != colonies.end(); ++it) {
+                    const unsigned int& id = (*it)->get_id();
+                    auto prox = prox_matrix[id-_init_colony];
+
+                    os << "\n - col[" << std::setw(2) << std::setfill('0') << id << "]::" << std::setw(5) << std::setfill(' ') << (*it)->get_base_node() << ": ";
+                    for (int jj=0; jj<(std::min)(10, (int)_n_colonies); ++jj) {
+                        if (id == jj ) {
+                            utils::color::set_color(utils::color::GREEN);                            
+                            os << std::fixed << "  -----  ";
+                            }                            
+                        else {
+                            if (prox[jj] == 0.f) {
+                                utils::color::set_color(utils::color::RED);
+                                }
+                            os << std::fixed << std::setw(7) << std::setprecision(3) << std::setfill(' ') << prox[jj] << "  ";
+                            }
+                        utils::color::set_color(utils::color::DEFAULT);
                         }
+                    utils::color::set_color(utils::color::DEFAULT);
                     }
-                metric /= 2;
-
-                // El número de intentos realizados para alcanzar ese valor es negativo
-                auto steps = 0;
-                for (std::size_t i = 0; i < _n_colonies; ++i) {
-                    steps += colonies[i]->get_num_steps();
-                    }                
-
-                return metric/(float)steps;
+                os << "\nneighbourhood_metric: " << this->get_metric();
                 }
 
+            /*
             void print(std::ostream& os) const {
                 std::cout << "\t\t\tprox\tneig\tcolonies...";
                 float total_metric = 0.f;
@@ -121,22 +133,15 @@ namespace AnCO {
                 std::cout << "\t max: " << (pow(float(colonies.size()-1), 2)) << std::endl;
                 std::cout << "\t value: " << total_metric/(pow(float(colonies.size()-1), 2));                
                 }
-
+            */
         protected:
-            /*
+            
             void update_prox_colonies() {
-                prox_algorithm::update_proximity_matrix(_proximity_matrix);
                 for (std::size_t i = 0; i<_n_colonies; ++i) {
-                    const std::vector<float>& prox = colonies[i]->get_proximity_vector();
-                    for (std::size_t j = _init_colony; j<=_end_colony; ++j) {
-                        if (i != (j-_init_colony)) {
-                            assert(prox[j]>=0.f);
-                            _proximity_matrix[i][j-_init_colony] = prox[j];
-                            }
-                        }
+                    _proximity_matrix[i] = colonies[i]->get_proximity_vector();
                     }
                 };
-            */
+            
         protected:
             unsigned int iteration;
             graph& _graph;
