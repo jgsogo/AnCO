@@ -23,6 +23,7 @@
 #include "algorithm/aco_random.h"
 #include "algorithm/prox_base.h"
 #include "algorithm/prox1.h"
+#include "algorithm/prox_percent.h"
 
 #include "colony/neighbourhood.h"
 #include "utils/threading.h"
@@ -39,7 +40,7 @@
 
 using namespace AnCO;
 
-typedef algorithm::prox1 prox_algorithm;
+typedef algorithm::prox_percent prox_algorithm;
 typedef algorithm::aco_random aco_algorithm;
 
 typedef AnCO::colony<aco_algorithm> colony_type;
@@ -111,15 +112,10 @@ int main(int argc, char* argv[]) {
             colony_meta_iteration = colony_meta.get_iteration();            
             std::cout << "Iteration " << colony_meta_iteration << std::endl;
             
-            colony_meta.print2(std::cout);
+            colony_meta.print(std::cout);
+            std::cout << std::endl;            
+            test_colony.print(std::cout);
             
-            /*
-            auto test_prox = test_colony.get_proximity_vector();
-            std::cout << "\n\t - col[" << test_colony.get_id() << "]::" << test_colony.get_base_node() << ":\t";
-            for (int jj=0; jj<test_colony.get_id(); ++jj) {
-                std::cout << std::fixed << std::setw(7) << std::setprecision(3) << std::setfill(' ') << test_prox[jj] << "  ";
-                }
-            */
             std::cout << std::flush;
             }
         else {

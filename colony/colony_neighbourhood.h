@@ -2,6 +2,7 @@
 #pragma once
 
 #include "colony.h"
+#include "../utils/color.h"
 
 namespace AnCO {
 
@@ -48,14 +49,34 @@ namespace AnCO {
 
             virtual void print(std::ostream& os) const {
                 colony<aco_algorithm>::print(os);                
-                os << " - neighbourhood: ";
-                for(auto it = _neighbourhood.begin(); it!=_neighbourhood.end(); ++it) {
-                    std::pair<std::vector<edge_ptr>, std::vector<edge_ptr>> edges_pair;
-                    colony<aco_algorithm>::_graph.get_edges(it->first, edges_pair);
-                    int n = edges_pair.first.size() + edges_pair.second.size();
-                    os << " - " << it->first << "(" << n << ")";
-                    };
+                os << " - neighbourhood: " << _neighbourhood.size();
                 os << " - proximity vector: " << std::endl;
+
+                const unsigned int& id = this->get_id();
+                auto prox = prox_algorithm::_rel_proximity(id, _prox);
+                    
+                auto metric = this->get_metric();
+                std::cout << metric << " |\t";
+
+                unsigned color = utils::color::DEFAULT;
+                if (metric < 0.f) {
+                    color = utils::color::RED;
+                    utils::color::set_color(color);
+                    }
+                for (int jj=0; jj<prox.size(); ++jj) {
+                    if (id == jj ) {
+                        utils::color::set_color(utils::color::GREEN);                            
+                        std::cout << std::fixed << "  -----  ";
+                        }                            
+                    else {
+                        if (prox[jj] == 0.f) {
+                            utils::color::set_color(utils::color::RED);
+                            }
+                        std::cout << std::fixed << std::setw(7) << std::setprecision(3) << std::setfill(' ') << prox[jj] << "  ";
+                        }
+                    utils::color::set_color(color);
+                    }
+                utils::color::set_color(utils::color::DEFAULT);
 
                 }
         protected:

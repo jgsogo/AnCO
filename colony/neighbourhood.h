@@ -66,7 +66,7 @@ namespace AnCO {
                 return prox_algorithm::metric(_proximity_matrix);
                 }
             
-            void print2(std::ostream& os) const {
+            void print(std::ostream& os) const {
                 auto prox_matrix = prox_algorithm::_rel_proximity(_proximity_matrix);
                 os << "\t\t  colonies...";
                 for (auto it = colonies.begin(); it != colonies.end(); ++it) {

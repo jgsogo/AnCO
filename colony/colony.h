@@ -75,6 +75,8 @@ namespace AnCO {
 
             virtual void print(std::ostream& os) const {
                 os << "Colony " << this->get_id() << std::endl;
+                os << " - base_node: " << _base_node << std::endl;
+                /*
                 os << " - paths:" << std::endl;
                 for (auto it=_ant_paths.begin(); it!=_ant_paths.end(); ++it) {
                     //os << (*it).begin()->init;
@@ -83,6 +85,7 @@ namespace AnCO {
                         });
                     os << std::endl;
                     }
+                */
                 }
 
         protected:
