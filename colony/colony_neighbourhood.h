@@ -29,13 +29,11 @@ namespace AnCO {
 
             virtual void update() {
                 colony<aco_algorithm>::update();
+                this->penalize_neighbourhood();
                 std::for_each(colony<aco_algorithm>::_ant_paths.begin(), colony<aco_algorithm>::_ant_paths.end(), [this](_t_ant_path& path) {
-                    //! TODO: Cuando empiece a haber adición/eliminación de nodos, las distancias deben cambiar:
-                    //        * o bien resetearse cada X tiempo
-                    //        * o bien añadir una penalización hasta un máximo (max_steps)
-                    // 
-                    this->penalize_neighbourhood();
-                    this->update_neighbourhood(path);
+                    if (path.size()) {
+                        this->update_neighbourhood(path);
+                        }
                     });
                 _prox = prox_algorithm::compute_proximity(colony<aco_algorithm>::_ant_paths, _neighbourhood);
                 };
@@ -49,15 +47,18 @@ namespace AnCO {
 
             virtual void print(std::ostream& os) const {
                 colony<aco_algorithm>::print(os);                
-                os << " - neighbourhood: " << _neighbourhood.size();
+                os << " - neighbourhood: " << _neighbourhood.size() << std::endl;
                 os << " - proximity vector: " << std::endl;
 
+                //os << "!1" << std::endl;
                 const unsigned int& id = this->get_id();
                 auto prox = prox_algorithm::_rel_proximity(id, _prox);
                     
+                //os << "!2" << std::endl;
                 auto metric = this->get_metric();
                 std::cout << metric << " |\t";
 
+                //os << "!3" << std::endl;
                 unsigned color = utils::color::DEFAULT;
                 if (metric < 0.f) {
                     color = utils::color::RED;

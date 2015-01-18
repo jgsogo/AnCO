@@ -55,9 +55,7 @@ namespace AnCO {
                     if (ret) {
                         //std::cout << "Col[" << _id << "] Ant[" << i << "] Succeded!!" << std::endl;
                         }
-                    if (path.size()) {
-                        _ant_paths.push_back(path);
-                        }
+                    _ant_paths.push_back(path);                
                     }
                 };
 

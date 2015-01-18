@@ -65,7 +65,7 @@ namespace AnCO {
                     ret[me] = 0.f;
                     auto maximum = *std::max_element(ret.begin(), ret.end());
                     if (maximum > 0.f) {
-                        for (auto i = 0; i<in.size(); ++i) {
+                        for (auto i = 0; i<ret.size(); ++i) {
                             if (i!=me) {
                                 ret[i] = ret[i]/maximum;
                                 }
@@ -96,10 +96,11 @@ namespace AnCO {
                     for (unsigned i=0; i<in.size(); ++i) {
                         maximum = (std::max)(maximum, *std::max_element(ret[i].begin(), ret[i].end()));
                         }
+                    assert(maximum>0.f); 
                     // Normalize matrix
-                    std::for_each(ret.begin(), ret.end(), [maximum](std::vector<float> v){
+                    std::for_each(ret.begin(), ret.end(), [maximum](std::vector<float>& v){
                         for (auto it = v.begin(); it!=v.end(); ++it) {
-                            (*it) /= maximum;
+                            (*it) = (*it)/maximum;
                             }
                         });
 

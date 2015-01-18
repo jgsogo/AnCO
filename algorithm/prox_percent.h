@@ -20,7 +20,7 @@ namespace AnCO {
                     std::vector<float> ret(n_colonies, 0.f);
 
                     // Añado uno por cada hormiga que haya encontrado la otra colonia
-                    std::for_each(paths.begin(), paths.end(), [&n_colonies, &ret, &distances, &init_colony, &end_colony](const _t_ant_path& path) {
+                    std::for_each(paths.begin(), paths.end(), [&n_colonies, &ret, &init_colony, &end_colony](const _t_ant_path& path) {
                         std::vector<bool> found(n_colonies, false);
                         for(_t_ant_path::const_iterator it = path.begin(); it != path.end(); ++it) {
                             for (std::size_t i = init_colony; i<=end_colony; ++i) {

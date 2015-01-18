@@ -77,10 +77,12 @@ namespace AnCO {
             }
 
         void aco_base::update_pheromone(const std::vector<edge_ptr>& path, const unsigned int& pherom_id) {
-            float _pheromone_add = pheromone_change_factor/(float)path.size();
-            std::for_each(path.begin(), path.end(), [_pheromone_add, &pherom_id](const edge_ptr& ptr) {
-                ptr->data.pheromone[pherom_id] += _pheromone_add;
-                });
+            if (path.size()) {
+                float _pheromone_add = pheromone_change_factor/(float)path.size();
+                std::for_each(path.begin(), path.end(), [_pheromone_add, &pherom_id](const edge_ptr& ptr) {
+                    ptr->data.pheromone[pherom_id] += _pheromone_add;
+                    });
+                }
             }
 
         void aco_base::update_graph(graph& graph) {
