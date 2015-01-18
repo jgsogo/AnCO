@@ -14,7 +14,12 @@ namespace AnCO {
                     return (std::min)(1.f, prox_base::proximity_value(pheromone, distance));
                     };
                 */
-                static std::vector<float> compute_proximity(const _t_ant_paths& paths, const std::map<graph::_t_node_id, int>& distances, std::size_t init_colony = 0, std::size_t end_colony = base_colony::next_id-1) {
+                static std::vector<float> compute_proximity(std::size_t me, const _t_ant_paths& paths, const std::map<graph::_t_node_id, int>& distances/*, std::size_t init_colony = 0, std::size_t end_colony = base_colony::next_id-1*/) {
+                    //! TODO: Estudiar cómo hacer para incluirlos como argumentos y que funcione (test!!!)
+                    std::size_t init_colony = 0;
+                    std::size_t end_colony = base_colony::next_id-1;
+
+                    /////
                     std::size_t n_colonies = end_colony - init_colony + 1;
                     // La feromona máxima del vecindario (si todos los nodos tuvieran como el que más)
                     float max_pheromone = 0.f;
@@ -46,7 +51,8 @@ namespace AnCO {
                             }
                         });
 
-                    return ret;
+                    // Hago esta medida relativa a la feromona de la propia colonia ('me') encontrada en el camino
+                    return prox_base::_rel_proximity(me, ret);
                     }
 
             };

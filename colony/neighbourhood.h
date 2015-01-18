@@ -89,33 +89,24 @@ namespace AnCO {
 
                     float metric = (*it)->get_metric();                    
                     auto prox = (*it)->get_proximity_vector();
-                    std::cout << std::fixed << std::setw(7) << std::setprecision(3) << std::setfill(' ');
+                    
                     std::cout << metric << " |\t";
                     std::cout << std::setw(3) << std::setfill(' ') << (*it)->get_neighbourhood().size() << " |\t";
+                    //std::cout << std::fixed << std::setw(7) << std::setprecision(3) << std::setfill(' ');
+                    unsigned color = utils::color::DEFAULT;
                     if (metric < 0.f) {
-                        utils::color::set_color(utils::color::RED);
+                        color = utils::color::RED;
+                        utils::color::set_color(color);
                         }
                     for (int jj=0; jj<(std::min)(10, (int)_n_colonies); ++jj) {
-                        if (id != jj ) {
-                            std::cout << prox[jj] << "  ";
+                        if (id == jj ) {
+                            utils::color::set_color(utils::color::GREEN);                            
                             }
-                        else { std::cout << "-----  "; }
-                        std::cout << "  ";
+                        std::cout << std::fixed << std::setw(7) << std::setprecision(3) << std::setfill(' ') << prox[jj] << "  ";
+                        utils::color::set_color(color);
                         }
                     utils::color::set_color(utils::color::DEFAULT);
                     }
-                /*
-                for (int ii=0; ii<_n_colonies; ++ii) {
-                    std::cout << "\n\t - col[" << ii << "]::neighbours:\t";
-                    auto v = _proximity_matrix[ii];
-                    for (int jj=0; jj<(std::min)(10, (int)_n_colonies); ++jj) {
-                        std::cout << std::fixed << std::setw(7) << std::setprecision(3) << std::setfill(' ') << v[jj] << "  ";
-                        }
-                    //std::cout << std::endl;
-                    }
-                auto metric = this->get_metric();
-                std::cout << "\n\t metric: " << metric << std::endl;
-                */
                 }
 
         protected:
