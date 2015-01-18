@@ -42,7 +42,7 @@ namespace AnCO {
                 // Actualización de la función de proximidad
                 _t_proximity_array prox = prox_algorithm::compute_proximity(colony<aco_algorithm>::_ant_paths, _neighbourhood);
                 for (auto i =0; i<GLOBALS::n_max_colonies; ++i) {
-                    _prox[i] = prox[i] + (1-prox_algorithm::proximity_decay)*_prox[i];
+                    _prox[i] = (prox_algorithm::proximity_decay*prox[i] + (1-prox_algorithm::proximity_decay)*_prox[i])/2.f;
                     }
                 _prox_rel = prox_algorithm::_rel_proximity(this->get_id(), _prox);
                 };

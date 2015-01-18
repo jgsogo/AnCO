@@ -101,13 +101,15 @@ namespace AnCO {
                     for (unsigned i=0; i<GLOBALS::n_max_colonies; ++i) {
                         maximum = (std::max)(maximum, *std::max_element(ret[i].begin(), ret[i].end()));
                         }
-                    assert(maximum>0.f); 
-                    // Normalize matrix
-                    std::for_each(ret.begin(), ret.end(), [maximum](_t_proximity_array& v){
-                        for (auto it = v.begin(); it!=v.end(); ++it) {
-                            (*it) = (*it)/maximum;
-                            }
-                        });
+
+                    if (maximum>0.f) {
+                        // Normalize matrix
+                        std::for_each(ret.begin(), ret.end(), [maximum](_t_proximity_array& v){
+                            for (auto it = v.begin(); it!=v.end(); ++it) {
+                                (*it) = (*it)/maximum;
+                                }
+                            });
+                        }
                     return std::move(ret);
                     }
 

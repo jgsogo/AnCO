@@ -9,6 +9,21 @@ namespace AnCO {
         // Algoritmo ACO base
         class prox_percent : public prox_base {
             public:
+                
+                static _t_proximity_array _rel_proximity(std::size_t me, const _t_proximity_array& in) {
+                    _t_proximity_array ret = in;
+                    ret[me] = 0.f;
+                    return std::move(ret);
+                    }
+
+                static _t_proximity_matrix _rel_proximity(const _t_proximity_matrix& in) {
+                    _t_proximity_matrix ret = in;
+                    // Get max element
+                    for (unsigned i=0; i<GLOBALS::n_max_colonies; ++i) {
+                        ret[i][i] = 0.f;
+                        }
+                    return std::move(ret);
+                    }
 
                 static _t_proximity_array compute_proximity(const _t_ant_paths& paths, const std::map<graph::_t_node_id, int>& distances) {
                     _t_proximity_array ret; initialize(ret);

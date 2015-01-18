@@ -99,11 +99,9 @@ int main(int argc, char* argv[]) {
     utils::endless colony_meta_endless(colony_meta_task);
     t.toc();
 
-
     std::cout << "4) Build metagraph" << std::endl;
     colony_meta_endless.start();
 
-    int i = 1000;
     unsigned int colony_meta_iteration = 0;
     while(true) {
         neighbourhood_type::_t_proximity_matrix prox_matrix = colony_meta.get_proximity_matrix();
