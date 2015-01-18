@@ -55,6 +55,7 @@ namespace AnCO {
 
             const _t_proximity_matrix& get_proximity_matrix() { return _proximity_matrix;};
             const unsigned int& get_iteration() const { return iteration;};
+            const std::vector<std::shared_ptr<colony_type>>& get_colonies() const { return colonies;};
 
             float get_metric() const {
                 return prox_algorithm::metric(_proximity_matrix, _init_colony, _end_colony);

@@ -72,7 +72,7 @@ namespace AnCO {
                 visited.insert(current_node);
                 ++step;
                 }
-            while(!suc(edge) && step<max_steps);
+            while(!suc(edge) || step<max_steps);
             return step!=max_steps;
             }
 

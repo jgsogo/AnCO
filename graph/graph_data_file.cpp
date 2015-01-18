@@ -64,4 +64,14 @@ namespace AnCO {
         return *it;
         }
 
+
+    
+    void graph_data_file_builder::add_node(const std::string& n) {
+        _nodes.insert(n);
+        }
+
+    void graph_data_file_builder::add_edge(const std::string& n1, const std::string& n2) {
+        _edges.insert(std::make_pair(n1, n2));
+        _edges_flip.insert(std::make_pair(n2, n1));
+        }
     }
