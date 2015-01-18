@@ -46,6 +46,16 @@ namespace AnCO {
                 return prox_algorithm::metric(this->get_id(), _prox);
                 }
 
+            virtual void print(std::ostream& os) const {
+                colony<aco_algorithm>::print(os);                
+                os << " - neighbourhood: ";
+                for(auto it = _neighbourhood.begin(); it!=_neighbourhood.end(); ++it) {
+                    std::pair<std::vector<edge_ptr>, std::vector<edge_ptr>> edges_pair;
+                    colony<aco_algorithm>::_graph.get_edges(it->first, edges_pair);
+                    int n = edges_pair.first.size() + edges_pair.second.size();
+                    os << " - " << it->first << "(" << n << ")";
+                    };
+                }
         protected:
             void penalize_neighbourhood() {
                 prox_algorithm::penalize_neighbourhood(_neighbourhood, colony<aco_algorithm>::_max_steps);

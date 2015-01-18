@@ -81,10 +81,10 @@ namespace AnCO {
                 return metric/(float)steps;
                 }
 
-            void print(std::ostream& os) {
+            void print(std::ostream& os) const {
                 std::cout << "\t\t\tprox\tneig\tcolonies...";
                 for (auto it = colonies.begin(); it != colonies.end(); ++it) {
-                    const unsigned int& id = (*it)->get_id();
+                    const unsigned int& id = (*it)->get_id();                    
                     std::cout << "\n - col[" << std::setw(2) << std::setfill('0') << id << "]::" << std::setw(5) << std::setfill(' ') << (*it)->get_base_node() << ": ";
 
                     float metric = (*it)->get_metric();                    
@@ -106,6 +106,8 @@ namespace AnCO {
                         utils::color::set_color(color);
                         }
                     utils::color::set_color(utils::color::DEFAULT);
+
+                    (*it)->print(os);
                     }
                 }
 

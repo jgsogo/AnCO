@@ -72,6 +72,19 @@ namespace AnCO {
                                             //      deben devolverse los pasos de la última iteración
                 }
             const graph::_t_node_id& get_base_node() const { return _base_node;}
+
+            virtual void print(std::ostream& os) const {
+                os << "Colony " << this->get_id() << std::endl;
+                os << " - paths:" << std::endl;
+                for (auto it=_ant_paths.begin(); it!=_ant_paths.end(); ++it) {
+                    //os << (*it).begin()->init;
+                    std::for_each( (*it).begin(), (*it).end(), [&os](const edge_ptr item){
+                        os << "\t" << item->end;
+                        });
+                    os << std::endl;
+                    }
+                }
+
         protected:
             void update_pheromone() {
                 for (_t_ant_paths::const_iterator it = _ant_paths.begin(); it != _ant_paths.end(); ++it) {

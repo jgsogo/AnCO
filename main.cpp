@@ -20,8 +20,9 @@
 #include "colony/colony.h"
 
 #include "algorithm/aco_base.h"
+#include "algorithm/aco_random.h"
 #include "algorithm/prox_base.h"
-    #include "algorithm/prox1.h"
+#include "algorithm/prox1.h"
 
 #include "colony/neighbourhood.h"
 #include "utils/threading.h"
@@ -39,7 +40,7 @@
 using namespace AnCO;
 
 typedef algorithm::prox_base prox_algorithm;
-typedef algorithm::aco_base aco_algorithm;
+typedef algorithm::aco_random aco_algorithm;
 
 typedef AnCO::colony<aco_algorithm> colony_type;
 typedef AnCO::colony_neighbourhood<aco_algorithm, prox_algorithm> colony_neighbourhood_type;
