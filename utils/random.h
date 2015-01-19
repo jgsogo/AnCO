@@ -7,7 +7,6 @@ namespace AnCO {
         class random {
             public:
                 static void init_random(unsigned seed) {
-                    std::cout << "!!!!! SEED: " << seed << std::endl;
                     std::srand(seed);
                     }
 

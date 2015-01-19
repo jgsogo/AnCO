@@ -32,7 +32,8 @@ namespace AnCO {
 
                 // 
                 static void select_paths(std::vector<std::pair<_t_ant_path, bool>>& tmp_paths);
-            protected:
+            
+            public:
                 static float t_min;
                 static float t_max;
             };
