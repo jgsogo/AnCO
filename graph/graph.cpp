@@ -32,15 +32,15 @@ namespace AnCO {
             _data.node_edges_outgoing(node_id, edges_out);
             std::for_each(edges_out.begin(), edges_out.end(), [this, &node_id, &edges](graph_data::edge& item) {
                 assert(node_id.compare(item.first)==0);
-                this->add_node(item.second);
-                auto ret = this->add_edge(item.first, item.second);
+                this->add_node(item.second.first);
+                auto ret = this->add_edge(item.first, item.second.first, item.second.second);
                 // Lo creo y luego lo busco :S (pero así puedo contar llamadas a la BD)                
                 });  
             _data.node_edges_incoming(node_id, edges_in);
             std::for_each(edges_in.begin(), edges_in.end(), [this, &node_id, &edges](graph_data::edge& item) {
-                assert(node_id.compare(item.second)==0);
+                assert(node_id.compare(item.second.first)==0);
                 this->add_node(item.first);
-                auto ret = this->add_edge(item.second, item.first);
+                auto ret = this->add_edge(item.second.first, item.first, item.second.second);
                 // Lo creo y luego lo busco :S (pero así puedo contar llamadas a la BD)                
                 });  
             }

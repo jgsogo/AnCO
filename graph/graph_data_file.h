@@ -22,13 +22,13 @@ namespace AnCO {
             // random_access
             virtual const std::string& get_node_random() const;
             const std::set<std::string>& get_nodes() const { return _nodes;};
-            const std::multimap<std::string, std::string>& get_edges() const { return _edges;};
+            const std::multimap<std::string, std::pair<std::string, float>>& get_edges() const { return _edges;};
         protected:
             graph_data_file() {};
 
             std::string _filename;
-            std::multimap<std::string, std::string> _edges;
-            std::multimap<std::string, std::string> _edges_flip;
+            std::multimap<std::string, std::pair<std::string, float>> _edges;
+            std::multimap<std::string, std::pair<std::string, float>> _edges_flip;
             std::set<std::string> _nodes;
         };
 

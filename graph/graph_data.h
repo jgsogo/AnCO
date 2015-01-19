@@ -7,7 +7,7 @@ namespace AnCO {
 
     class graph_data {
         public:
-            typedef std::pair<std::string, std::string> edge;
+            typedef std::pair<std::string, std::pair<std::string, float>> edge;
 
             virtual bool is_oriented() const = 0;
             virtual bool node_exists(const std::string& node_id) const = 0;

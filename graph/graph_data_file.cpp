@@ -23,8 +23,8 @@ namespace AnCO {
                 if (n1 != n2) { //! Don't want edges over itself
                     _nodes.insert(n1);
                     _nodes.insert(n2);
-                    _edges.insert(std::make_pair(n1, n2));
-                    _edges_flip.insert(std::make_pair(n2, n1));
+                    _edges.insert(std::make_pair(n1, std::make_pair(n2, 1.f)));
+                    _edges_flip.insert(std::make_pair(n2, std::make_pair(n1, 1.f)));
                     }
                 if (++counter % 10000 == 0) {
                     std::cout << "\t" << counter << " edges so far" << std::endl;
@@ -41,17 +41,17 @@ namespace AnCO {
         return (_edges.find(node_id) != _edges.end()) || (_edges_flip.find(node_id)!=_edges_flip.end());
         }
     int graph_data_file::node_edges_incoming(const std::string& node_id, std::vector<edge>& edges) const {
-        std::multimap<std::string, std::string>::const_iterator it_begin, it_end;
+        std::multimap<std::string, std::pair<std::string, float>>::const_iterator it_begin, it_end;
         std::tie(it_begin, it_end) = _edges_flip.equal_range(node_id);
-        std::for_each(it_begin, it_end, [&edges](const std::pair<std::string, std::string>& item) {
-            edges.push_back(std::make_pair(item.second, item.first));
+        std::for_each(it_begin, it_end, [&edges](const std::pair<std::string, std::pair<std::string, float>>& item) {
+            edges.push_back(std::make_pair(item.second.first, std::make_pair(item.first, item.second.second)));
             });
         return edges.size();
         }
     int graph_data_file::node_edges_outgoing(const std::string& node_id, std::vector<edge>& edges) const {
-        std::multimap<std::string, std::string>::const_iterator it_begin, it_end;
+        std::multimap<std::string, std::pair<std::string, float>>::const_iterator it_begin, it_end;
         std::tie(it_begin, it_end) = _edges.equal_range(node_id);
-        std::for_each(it_begin, it_end, [&edges](const std::pair<std::string, std::string>& item) {
+        std::for_each(it_begin, it_end, [&edges](const std::pair<std::string, std::pair<std::string, float>>& item) {
             edges.push_back(item);
             });
         return edges.size();
@@ -71,7 +71,7 @@ namespace AnCO {
         }
 
     void graph_data_file_builder::add_edge(const std::string& n1, const std::string& n2, float cost) {
-        _edges.insert(std::make_pair(n1, n2));
-        _edges_flip.insert(std::make_pair(n2, n1));
+        _edges.insert(std::make_pair(n1, std::make_pair(n2, cost)));
+        _edges_flip.insert(std::make_pair(n2, std::make_pair(n1, cost)));
         }
     }
