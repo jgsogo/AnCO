@@ -9,7 +9,7 @@ namespace AnCO {
         
         // Select edge at random
         edge_ptr aco_random::select_edge(const std::vector<edge_ptr>& feasible_edges, const unsigned int& pherom_id) {
-            int id = utils::random::get_random(feasible_edges.size());
+            int id = utils::random::get_random(feasible_edges.size()-1);
             return feasible_edges[id];
             }
 

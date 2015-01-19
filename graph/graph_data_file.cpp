@@ -13,6 +13,7 @@ namespace AnCO {
 
     void graph_data_file::load_file() {
         std::cout << "\tLoading graph file: " << _filename << std::endl;
+        std::cout << "\t\tFORCE GRAPH TO BE BIDIRECTIONAL <<-- no puedo hacer esto, pero lo necesito de momento" << std::endl; //! TODO: No puedo hacer esto
         std::ifstream infile(_filename);
         std::string line;
         std::string n1, n2;
@@ -25,6 +26,9 @@ namespace AnCO {
                     _nodes.insert(n2);
                     _edges.insert(std::make_pair(n1, std::make_pair(n2, 1.f)));
                     _edges_flip.insert(std::make_pair(n2, std::make_pair(n1, 1.f)));
+                     //! TODO: No puedo hacer esto, estoy FORZANDO que sea BIDIRECCIONAL
+                    _edges.insert(std::make_pair(n2, std::make_pair(n1, 1.f)));
+                    _edges_flip.insert(std::make_pair(n1, std::make_pair(n2, 1.f)));
                     }
                 if (++counter % 10000 == 0) {
                     std::cout << "\t" << counter << " edges so far" << std::endl;

@@ -44,7 +44,7 @@ En la actualidad algunos de estos problemas plantean nuevos retos conforme van a
 Además, a todo esto hay que unir el tiempo de respuesta, un requisito que cada vez es más importante, y que en muchas aplicaciones en tiempo real o limitado se convierte en la principal restricción, relegando a un segundo plano la obtención del camino óptimo \cite{Rivero2011}.
 
 Los algoritmos de colonias de hormigas han demostrado su capacidad de adaptación a entornos dinámicos y su eficiencia a la hora de encontrar caminos entre nodos.
-Sin embargo, su aplicación a grafos de gran tamaño es limitada y en la literatura la mayoría de propuestas que se encuentran se basan en realizar un preprocesado del grafo para focalizar las búsquedas en partes del mismo en vez de hacerlo en el grafo completo, perdiendo en muchas ocasiones la adaptabilidad a los cambios.
+Sin embargo, su aplicación a grafos de gran tamaño es limitada y en la literatura la mayoría de propuestas que se encuentran se basan en realizar un pre-procesado del grafo para focalizar las búsquedas en partes del mismo en vez de hacerlo en el grafo completo, perdiendo en muchas ocasiones la adaptabilidad a los cambios.
 
 Nuestra propuesta surge tras la lectura de la tesis doctoral de Rivero \cite{Rivero2011} que propone el algoritmo \textit{SoSACO} (\textit{Sense of Smell ACO}) en el que introduce un conjunto de \textit{Nodos Comida} y \textit{Olor a Comida} para ayudar a las hormigas en la búsqueda del camino.
 En este trabajo planteamos un enfoque diferente, aunque los objetivos que perseguimos son los mismos:
@@ -96,7 +96,7 @@ En el próximo apartado veremos cómo se realiza este proceso.
 \subsection{Existencia de camino}
 El algoritmo AnCO está pensado para estar ejecutándose continuamente sobre el grafo original, las colonias de hormigas actualizarán su vecindario continuamente, y los costes y la topología del meta-grafo se verán afectados.
 
-A este algoritmo en ejecución se le podrá pedir el camino más corto entre $n_s$ y $n_e$, la solución será construída según los siguientes pasos:
+A este algoritmo en ejecución se le podrá pedir el camino más corto entre $n_s$ y $n_e$, la solución será construida según los siguientes pasos:
 
 \begin{enumerate}
   \item Se creará una colonia en $n_s$ con comportamiento aleatorio que explorará el grafo en busca de las colonias vecinas del meta-grafo.
@@ -106,10 +106,9 @@ A este algoritmo en ejecución se le podrá pedir el camino más corto entre $n_
 \end{enumerate}
 
 \subsection{Construcción del camino}
-Una vez que sabemos que existe un camino entre los nodos propuestos se elimina la colonia $n_e$ y se reinicia el hormiguero de $n_s$ con una implementación de ACO.
-Estas hormigas buscarán el camino desde $n_s$ hasta $n_e$ utilizando los objetivos parciales que suponen las colonias intermedias calculadas anteriormente, así la valoración de las soluciones parciales obtenidas será directamente proporcional al objetivo alcanzado, siendo máximo el caso en el que el camino termina en $n_e$.
-
-
+Una vez que sabemos que existe un camino entre los nodos propuestos se reinicia el hormiguero de $n_s$ con una implementación de ACO que busca de forma voraz el rastro de feromona de los objetivos priorizando los más próximos al nodo final, $n_e$.
+Estas hormigas se comportan utilizando la variante MMAS del algoritmo ACO hasta que encuentran feromona correspondiente a uno de los objetivos, en ese momento su comportamiento cambia y empiezan a seguir el gradiente de concentración de feromona de esa colonia hasta llegar al nodo donde se encuentra la colonia o encontrar feromona del siguiente objetivo.
+Cuando alcanzan el nodo de una colonia, o feromona de un objetivo posterior, se elimina todos los objetivos anteriores para que no vuelvan hacia atrás en el espacio de búsqueda.
 
 
 
@@ -120,22 +119,22 @@ Estas hormigas buscarán el camino desde $n_s$ hasta $n_e$ utilizando los objeti
 
 % CONCLUSIONES
 \section{Conclusiones y trabajo futuro}
-Como hemos indicado en la introducción este documento plantea una propuesta de algoritmo que debe ser discutida y desarrollada con mucha más profundidad antes de poder ofrecer conclusiones sobre el mismo.
-Sin embargo, las pruebas que se han podido realizar muestran que el algoritmo funciona y la idea puede ser válida.
+Como hemos indicado en la introducción, este documento plantea una propuesta de algoritmo que debe ser discutida y desarrollada con mucha más profundidad antes de poder ofrecer conclusiones sobre el mismo.
+Sin embargo, las pruebas que se han podido realizar muestran que el algoritmo funciona y la idea puede ser válida, aunque quedan muchas líneas abiertas que deben ser investigadas.
 
-Más que conclusiones, indicaremos las líneas de desarrollo que se van a abordar en el futuro para completar la primera versión del algoritmo y poder ejecutar un conjunto de pruebas que permitan validarlo.
+En primer lugar debe fijarse una metodología que permita evaluar el comportamiento de este algoritmo frente a otros presentes en el estado del arte y debe diseñarse también un método experimental que permita modificar los parámetros y valorar las distintas soluciones para poder compararlas: diferentes implementaciones de ACO para cada colonia y variación de sus parámetros.
+
+Sin embargo, más interesantes resultan otros problemas que surgen del algoritmo que estamos presentando aquí y que deben ser abordados:
+\begin{enumerate}
+  \item Grafos dirigidos: en este experimento se han utilizado grafos no dirigidos que permiten asegurar la conexión entre las colonias del vecindario y también entre todos los nodos que pertenecen a una misma colonia.
+  \item Posición y número de colonias del meta-grafo: las conexiones generadas en el meta-grafo condicionan los caminos que van a ser explorados en el grafo subyacente. Una mejora del algoritmo AnCO incluiría la creación de nuevas colonias en zonas despobladas y el desplazamiento de alguna de ellas cuando se encuentren muy próximas, para ello se considera la creación de una métrica de \textit{prominencia} que tenga en cuenta la visibilidad de los nodos (número de arcos) y la distancia al resto de colonias dada por la \textit{proximidad}.
+  \item Tamaño del grafo: a pesar de las crecientes capacidades de los ordenadores, el tamaño del grafo puede no ser abordable por un único ordenador, el algoritmo AnCO se ha desarrollado pensando en que los datos del grafo podrían almacenarse en una base de datos \cite{Rivero2011} y así el algoritmo no sólo sería mucho más ligero, sino que podría ejecutarse de forma distribuida.
+  \item Pruebas con grafos dinámicos: las pruebas que se han realizado no incluyen dinamismo en los grafos, en futuros desarrollos deberá incorporarse esta circunstancia para validar el concepto.
+\end{enumerate}
+
+A pesar de que el algoritmo AnCO se encuentra en una fase de concepto, creemos firmemente que su planteamiento es válido para abordar el problema que se planteaba en la introducción; en los próximos meses se intentará mantener activo el desarrollo para conseguir una primera versión que pueda ser competitiva frente a otros planteamientos.
 
 
-
-
-% FUTURE WORK
-% Casos en los que hay que atravesar una colonia en grafos no bidireccionales
-
-% Tamaño del grafo --> base de datos
-
-% Movimiento de las colonias - prominencia
-
-% paralelizar el algoritmo
 
 %
 % ---- Bibliography ----

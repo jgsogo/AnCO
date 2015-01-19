@@ -57,11 +57,10 @@ namespace AnCO {
                     tmp_paths.push_back(std::make_pair(path, ret));                
                     }
 
-                if (at_least_one) {
-                    aco_algorithm::select_paths(tmp_paths);
-                    for(auto it = tmp_paths.begin(); it!=tmp_paths.end(); ++it) {
-                        _ant_paths.push_back(it->first);
-                        }
+                //if (at_least_one) {
+                aco_algorithm::select_paths(tmp_paths);
+                for(auto it = tmp_paths.begin(); it!=tmp_paths.end(); ++it) {
+                    _ant_paths.push_back(it->first);
                     }
                 };
 
