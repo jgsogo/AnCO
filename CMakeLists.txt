@@ -38,11 +38,13 @@ SOURCE_GROUP("Source Files\\colony" FILES   colony/colony.cpp)
 SOURCE_GROUP("Header Files\\algorithm" FILES    algorithm/aco_base.h
                                                 algorithm/prox1.h
                                                 algorithm/aco_random.h
+                                                algorithm/aco_mmas.h
                                                 algorithm/prox_percent.h
                                                 algorithm/prox_base.h)
 SOURCE_GROUP("Source Files\\algorithm" FILES    algorithm/aco_base.cpp
                                                 algorithm/prox_base.cpp
                                                 algorithm/prox_percent.cpp
+                                                algorithm/aco_mmas.cpp
                                                 algorithm/aco_random.cpp)
 # Add algorithm subdirectory
 SOURCE_GROUP("Header Files\\utils" FILES    utils/random.h
