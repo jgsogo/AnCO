@@ -29,8 +29,8 @@
 \maketitle              % typeset the title of the contribution
 
 \begin{abstract}
-Los algoritmos basados en colonias de hormigas han sido utilizados con éxito para resolver el problema de b{\'u}squeda de caminos en grafos est{\'a}ticos y din{\'a}micos. Sin embargo su aplicaci{\'o} a grafos grandes se ve limitada por el tiempo que tardan en converger.
-En este documento se presenta un nuevo\footnote{La "novedad" queda supeditada a un an{\'a}lisis exhaustivo del estado del arte.} algoritmo que se apoya en un conjunto de colonias de hormigas para construir un meta-grafo que permite dividir el problema.
+Los algoritmos basados en colonias de hormigas han sido utilizados con {\'e}xito para resolver el problema de b{\'u}squeda de caminos en grafos est{\'a}ticos y din{\'a}micos. Sin embargo su aplicaci{\'o}n a grafos grandes se ve limitada por el tiempo que tardan en converger.
+En este documento se presenta un nuevo\footnote{La "novedad" queda supeditada a un an{\'a}lisis exhaustivo del estado del arte.} algoritmo que se apoya en un conjunto de colonias para construir un meta-grafo que permite dividir el problema.
 \keywords{Ant Colony Optimization, huge graph, dynamic graph}
 \end{abstract}
 %
@@ -81,13 +81,13 @@ Al final de cada iteraci{\'o}n se deposita la feromona correspondiente a cada co
 Al final de cada iteraci{\'o}n cada colonia calcula su \textit{vecindario}: los nodos que han alcanzado sus hormigas y la distancia en pasos m{\'i}nima hasta ellos; esta informaci{\'o}n se utiliza para construir el meta-grafo y actualizar el coste asociado a sus arcos.
 Se crear{\'a} un arco $n_i \rightarrow n_k$ cuando las hormigas de $n_i$ hayan encontrado en su camino feromona $f_k$ y a este arco se le asignar{\'a} un coste que denominamos \textit{proximidad} y que cambiar{\'a} a lo largo del tiempo pudiendo llegar a eliminarse el arco si la colonia $n_i$ no vuelve a ver rastro de $n_k$.
 
-\subsubsection{Medidas de proximidad}
+\subsubsection{Medida de proximidad}
 Esta m{\'e}trica constituye uno de los puntos clave del algoritmo AnCO, se han utilizado dos aproximaciones:
 \begin{itemize}
-  \item En primer lugar se intent{\'o} desarrolla una medida absoluta para la proximidad entre dos subgrafos tomando como par{\'a}metros las distancias (vecindario) a los nodos donde se ha encontrado feromona $n_k$ y la concentraci{\'o}n de {\'e}sta. El desarrollo de esta medida constituye parte del trabajo futuro.
+  \item En primer lugar se intent{\'o} desarrollar una medida absoluta para la {proxi}{midad} entre dos subgrafos tomando como par{\'a}metros las distancias (vecindario) a los nodos donde se ha encontrado feromona $n_k$ y la concentraci{\'o}n de {\'e}sta. El desarrollo de esta medida constituye parte del trabajo futuro.
   \item Posteriormente se simplific{\'o} el c{\'a}lculo utilizando una medida probabil{\'i}stica que expresara la probabilidad de encontrar la colonia $n_k$, calculada como la proporci{\'o}n entre el n{\'u}mero de hormigas de la colonia $n_i$ que la hab{\'i}an encontrado y el n{\'u}mero de hormigas total de dicha colonia.
 \end{itemize}
-El c{\'o}digo del algoritmo permite intercambiar con facilidad una rutina de proximidad por otra, al igual que permite utilizar diferentes implementaciones de ACO.
+El c{\'o}digo del algoritmo permite intercambiar con facilidad una medida de {proxi}{midad} por otra, al igual que permite utilizar diferentes implementaciones de ACO.
 La modularibilidad es un principio que se ha intentado respetar en todo momento.
 
 Utilizando estas m{\'e}tricas se puede construir r{\'a}pidamente un meta-grafo din{\'a}mico que permite encontrar caminos entre dos zonas del grafo original y asignarles un valor de distancia/confianza \textit{a priori}.
@@ -106,8 +106,8 @@ A este algoritmo en ejecuci{\'o}n se le podr{\'a} pedir el camino m{\'a}s corto 
 \end{enumerate}
 
 \subsection{Construcci{\'o}n del camino}
-Una vez que sabemos que existe un camino entre los nodos propuestos se reinicia el hormiguero de $n_s$ con una implementaci{\'o}n de ACO que busca de forma voraz el rastro de feromona de los objetivos priorizando los m{\'a}s pr{\'o}ximos al nodo final, $n_e$.
-Estas hormigas se comportan utilizando la variante MMAS del algoritmo ACO hasta que encuentran feromona correspondiente a uno de los objetivos, en ese momento su comportamiento cambia y empiezan a seguir el gradiente de concentraci{\'o}n de feromona de esa colonia hasta llegar al nodo donde se encuentra la colonia o encontrar feromona del siguiente objetivo.
+Una vez que sabemos que existe un camino entre los nodos propuestos se reinicia el hormiguero de $n_s$ con una implementaci{\'o}n de ACO que busca de forma voraz el rastro de feromona de la secuencia de colonias por la que debe pasar para llegar al nodo final, $n_e$.
+Estas hormigas pueden utilizar cualquier variante de ACO hasta que encuentran feromona correspondiente a uno de los objetivos, en ese momento su comportamiento cambia y empiezan a seguir el gradiente de concentraci{\'o}n de feromona de esa colonia hasta llegar al nodo donde se encuentra la colonia o encontrar feromona del siguiente objetivo.
 Cuando alcanzan el nodo de una colonia, o feromona de un objetivo posterior, se elimina todos los objetivos anteriores para que no vuelvan hacia atr{\'a}s en el espacio de b{\'u}squeda.
 
 
@@ -125,12 +125,12 @@ Sin embargo, las pruebas que se han podido realizar muestran que el algoritmo fu
 En primer lugar debe fijarse una metodolog{\'i}a que permita evaluar el comportamiento de este algoritmo frente a otros presentes en el estado del arte y debe dise\~{n}arse tambi{\'e}n un m{\'e}todo experimental que permita modificar los par{\'a}metros y valorar las distintas soluciones para poder compararlas: diferentes implementaciones de ACO para cada colonia y variaci{\'o}n de sus par{\'a}metros.
 
 Sin embargo, m{\'a}s interesantes resultan otros problemas que surgen del algoritmo que estamos presentando aqu{\'i} y que deben ser abordados:
-\begin{enumerate}
+\begin{itemize}
   \item Grafos dirigidos: en este experimento se han utilizado grafos no dirigidos que permiten asegurar la conexi{\'o}n entre las colonias del vecindario y tambi{\'e}n entre todos los nodos que pertenecen a una misma colonia.
   \item Posici{\'o}n y n{\'u}mero de colonias del meta-grafo: las conexiones generadas en el meta-grafo condicionan los caminos que van a ser explorados en el grafo subyacente. Una mejora del algoritmo AnCO incluir{\'i}a la creaci{\'o}n de nuevas colonias en zonas despobladas y el desplazamiento de alguna de ellas cuando se encuentren muy pr{\'o}ximas, para ello se considera la creaci{\'o}n de una m{\'e}trica de \textit{prominencia} que tenga en cuenta la visibilidad de los nodos (n{\'u}mero de arcos) y la distancia al resto de colonias dada por la \textit{proximidad}.
   \item Tama\~{n}o del grafo: a pesar de las crecientes capacidades de los ordenadores, el tama\~{n}o del grafo puede no ser abordable por un {\'u}nico ordenador, el algoritmo AnCO se ha desarrollado pensando en que los datos del grafo podr{\'i}an almacenarse en una base de datos \cite{Rivero2011} y as{\'i} el algoritmo no s{\'o}lo ser{\'i}a mucho m{\'a}s ligero, sino que podr{\'i}a ejecutarse de forma distribuida.
   \item Pruebas con grafos din{\'a}micos: las pruebas que se han realizado no incluyen dinamismo en los grafos, en futuros desarrollos deber{\'a} incorporarse esta circunstancia para validar el concepto.
-\end{enumerate}
+\end{itemize}
 
 A pesar de que el algoritmo AnCO se encuentra en una fase de concepto, creemos firmemente que su planteamiento es v{\'a}lido para abordar el problema que se planteaba en la introducci{\'o}n; en los pr{\'o}ximos meses se intentar{\'a} mantener activo el desarrollo para conseguir una primera versi{\'o}n que pueda ser competitiva frente a otros planteamientos.
 
