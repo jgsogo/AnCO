@@ -37,7 +37,7 @@ namespace AnCO {
             graph_data_file_builder() {};
 
             void add_node(const std::string& n);
-            void add_edge(const std::string& n1, const std::string& n2);
+            void add_edge(const std::string& n1, const std::string& n2, float cost);
         };
 
     }

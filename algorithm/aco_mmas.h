@@ -30,6 +30,8 @@ namespace AnCO {
                                     std::vector<edge_ptr>& _path,   // [out] camino seguido
                                     const int& max_steps = 100);    // [in] número máximo de pasos
 
+                // 
+                static void select_paths(std::vector<std::pair<_t_ant_path, bool>>& tmp_paths);
             protected:
                 static float t_min;
                 static float t_max;

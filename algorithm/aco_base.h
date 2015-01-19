@@ -12,7 +12,7 @@ namespace AnCO {
         
         struct success {
             success() {};
-
+            virtual void new_ant() {};
             virtual bool operator()(edge_ptr ptr) {
                 return false;
                 };

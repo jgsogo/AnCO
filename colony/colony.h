@@ -48,15 +48,20 @@ namespace AnCO {
             virtual void run(algorithm::success& fsuc = algorithm::success()) {
                 _ant_paths.clear();
                 std::vector<std::pair<_t_ant_path, bool>> tmp_paths;
+                bool at_least_one = false;
                 for (std::size_t i = 0; i < _n_ants; ++i) {
-                    _t_ant_path path;                    
+                    _t_ant_path path;  
+                    fsuc.new_ant();
                     bool ret = aco_algorithm::run(_graph, _base_node, _id, fsuc, path, _max_steps);
+                    at_least_one |= ret;
                     tmp_paths.push_back(std::make_pair(path, ret));                
                     }
 
-                aco_algorithm::select_paths(tmp_paths);
-                for(auto it = tmp_paths.begin(); it!=tmp_paths.end(); ++it) {
-                    _ant_paths.push_back(it->first);
+                if (at_least_one) {
+                    aco_algorithm::select_paths(tmp_paths);
+                    for(auto it = tmp_paths.begin(); it!=tmp_paths.end(); ++it) {
+                        _ant_paths.push_back(it->first);
+                        }
                     }
                 };
 

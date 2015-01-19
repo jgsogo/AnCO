@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <numeric>
 #include "aco_mmas.h"
 #include "../utils/random.h"
 
@@ -14,6 +15,27 @@ namespace AnCO {
             float ret = pow(ptr->data.pheromone[id], alpha)* pow(1/ptr->data.length, beta);
             ret = (std::max)(t_min, (std::min)(t_max, ret));
             return std::move(ret);
+            }
+
+        void aco_mmas::select_paths(std::vector<std::pair<_t_ant_path, bool>>& tmp_paths) {
+            /* Selecciono el mejor de los caminos encontrados:
+                 * ha tenido éxito
+                 * es el camino con menos coste
+            */
+            std::pair<_t_ant_path, float> best = std::make_pair(_t_ant_path(), std::numeric_limits<float>::max());
+            for (auto it=tmp_paths.begin(); it!=tmp_paths.end(); ++it) {
+                if (it->second) {
+                    float cost = std::accumulate(it->first.begin(), it->first.end(), 0.f, [](float x, edge_ptr ptr){
+                        return x + ptr->data.length;
+                        });
+                    if ((cost < best.second) || ((cost == best.second) && (it->first.size() < best.first.size()))) {
+                        best = std::make_pair(it->first, cost);
+                        }
+                    }
+                }
+                    
+            tmp_paths.clear();
+            tmp_paths.push_back(std::make_pair(best.first, true));
             }
 
 
