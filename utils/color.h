@@ -22,9 +22,8 @@ namespace AnCO {
                 set_color(color_default);
             };
             static void set_color(unsigned c) {
-                #ifdef LINUX
+                #ifndef WINDOWS
                     std::cout << "\033[" << c << "m";
-                #elif WINDOWS
                 #endif
             };
             unsigned color_default;

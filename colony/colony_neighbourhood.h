@@ -28,7 +28,8 @@ namespace AnCO {
                 };
 
             virtual void run() {
-                colony<aco_algorithm>::run();
+                algorithm::success fsuc = algorithm::success();
+                colony<aco_algorithm>::run(fsuc);
                 };
 
             virtual void update() {
