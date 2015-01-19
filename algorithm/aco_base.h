@@ -22,6 +22,7 @@ namespace AnCO {
         class aco_base {
             public:
                 typedef success _f_success;
+                typedef std::vector<edge_ptr> _t_ant_path;
 
             public:
                 // Probabilidad de elección de un 'edge' asociada a la feromona 'id'
@@ -34,6 +35,9 @@ namespace AnCO {
                                     _f_success& suc,                // [in] función para determinar si he encontrado el destino
                                     std::vector<edge_ptr>& _path,   // [out] camino seguido
                                     const int& max_steps = 100);    // [in] número máximo de pasos
+
+                // Selección de paths
+                static void select_paths(std::vector<std::pair<_t_ant_path, bool>>& tmp_paths);
 
                 static void update_pheromone(const std::vector<edge_ptr>& path, const unsigned int& pherom_id);
 
@@ -48,6 +52,7 @@ namespace AnCO {
                 static float pheromone_change_factor;
                 static float pheromone_evaporation;
             };
+
 
         }
     }

@@ -24,7 +24,7 @@ namespace AnCO {
                 std::vector<edge_ptr> feasible_edges;
                 int n = aco_random::get_feasible_edges(graph, current_node, feasible_edges, visited);
                 if (n == 0) {
-                    return false; // break. No more nodes to visit.
+                    break; // break. No more nodes to visit.
                     }
 
                 // 2) Elegir uno
@@ -36,8 +36,8 @@ namespace AnCO {
                 visited.insert(current_node);
                 ++step;
                 }
-            while(!suc(edge) && step<max_steps);
-            return step!=max_steps;
+            while(step<max_steps);
+            return true; // para random no hay un criterio de éxito!
             }            
 
         }

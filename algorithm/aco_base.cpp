@@ -55,12 +55,13 @@ namespace AnCO {
             visited.insert(current_node);
             int step = 0;
             edge_ptr edge;
+            bool succeeded = false;
             do {
                 // 1) Calcular los edges que son posibles
                 std::vector<edge_ptr> feasible_edges;
                 int n = aco_base::get_feasible_edges(graph, current_node, feasible_edges, visited);
                 if (n == 0) {
-                    return false; // break. No more nodes to visit.
+                    break; // break. No more nodes to visit.
                     }
 
                 // 2) Elegir uno
@@ -70,10 +71,19 @@ namespace AnCO {
                 _path.push_back(edge);
                 current_node = edge->end;
                 visited.insert(current_node);
+                succeeded = suc(edge);
                 ++step;
                 }
-            while(!suc(edge) || step<max_steps);
-            return step!=max_steps;
+            while(!succeeded && step<max_steps);
+            return succeeded;
+            }
+
+        // Selección de paths
+        void aco_base::select_paths(std::vector<std::pair<_t_ant_path, bool>>& tmp_paths) {
+            // Sólo los paths que han succeeded
+            tmp_paths.erase(std::remove_if(tmp_paths.begin(), tmp_paths.end(), [](std::pair<_t_ant_path, bool>& ptr) -> bool {
+                return !ptr.second;
+                }), tmp_paths.end());
             }
 
         void aco_base::update_pheromone(const std::vector<edge_ptr>& path, const unsigned int& pherom_id) {
