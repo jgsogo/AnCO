@@ -4,7 +4,7 @@ seed = 1234
 
 # Archivo de entrada y directorio de salida
 output = aco_10_10
-dataset = data/Slashdot0902.txt
+dataset = blocks/jgsogo/AnCO/data/Slashdot0902.txt
 training_iterations = 30
 
 # Neighbourhood
