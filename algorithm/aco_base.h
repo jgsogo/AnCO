@@ -10,10 +10,18 @@
 namespace AnCO {
     namespace algorithm {
         
+        struct success {
+            success() {};
+
+            virtual bool operator()(edge_ptr ptr) {
+                return false;
+                };
+            };
+
         // Algoritmo ACO base
         class aco_base {
             public:
-                typedef std::function<bool (edge_ptr ptr)> _f_success;
+                typedef success _f_success;
 
             public:
                 // Probabilidad de elección de un 'edge' asociada a la feromona 'id'

@@ -32,13 +32,13 @@ namespace AnCO {
                     std::for_each(paths.begin(), paths.end(), [&ret](const _t_ant_path& path) {
                         std::vector<bool> found(GLOBALS::n_max_colonies, false);
                         for(_t_ant_path::const_iterator it = path.begin(); it != path.end(); ++it) {
-                            for (std::size_t i = 0; i<=GLOBALS::n_max_colonies; ++i) {
+                            for (std::size_t i = 0; i<GLOBALS::n_max_colonies; ++i) {
                                 if ((*it)->data.pheromone[i] > 0.f) {
                                     found[i] = true;
                                     }
                                 }
                             }
-                        for (std::size_t i = 0; i<=GLOBALS::n_max_colonies; ++i) {
+                        for (std::size_t i = 0; i<GLOBALS::n_max_colonies; ++i) {
                             if (found[i]) {
                                 ret[i] += 1;
                                 }

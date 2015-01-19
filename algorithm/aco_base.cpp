@@ -64,7 +64,7 @@ namespace AnCO {
                     }
 
                 // 2) Elegir uno
-                edge_ptr edge = aco_base::select_edge(feasible_edges, pherom_id);
+                edge = aco_base::select_edge(feasible_edges, pherom_id);
                 
                 // 3) Añadir al path y actualizar variables.
                 _path.push_back(edge);

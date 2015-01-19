@@ -1,6 +1,6 @@
 
 
-seed = 1000
+seed = 1234
 
 # Archivo de entrada y directorio de salida
 output = aco_10_10

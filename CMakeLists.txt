@@ -20,23 +20,34 @@ SOURCE_GROUP("Header Files\\graph" FILES    graph/edge_data.h
                                             graph/graph_data.h
                                             graph/graph_data_file.h
                                             graph/graph_sqlite3.h
-                                            graph/node_data.h)
+                                            graph/node_data.h
+                                            graph/memgraph.h)
 SOURCE_GROUP("Source Files\\graph" FILES    graph/graph.cpp
                                             graph/graph_data_file.cpp
-                                            graph/graph_sqlite3.cpp)
+                                            graph/graph_sqlite3.cpp
+                                            graph/memgraph.cpp)
 
 # Add colony subdirectory
 SOURCE_GROUP("Header Files\\colony" FILES   colony/colony_neighbourhood.h
                                             colony/neighbourhood.h
                                             colony/colony.h
                                             colony/success.h)
+SOURCE_GROUP("Source Files\\colony" FILES   colony/colony.cpp)
 
 # Add algorithm subdirectory
 SOURCE_GROUP("Header Files\\algorithm" FILES    algorithm/aco_base.h
+                                                algorithm/prox1.h
+                                                algorithm/aco_random.h
+                                                algorithm/prox_percent.h
                                                 algorithm/prox_base.h)
-SOURCE_GROUP("Source Files\\algorithm" FILES    algorithm/aco_base.cpp)
+SOURCE_GROUP("Source Files\\algorithm" FILES    algorithm/aco_base.cpp
+                                                algorithm/prox_base.cpp
+                                                algorithm/prox_percent.cpp
+                                                algorithm/aco_random.cpp)
 # Add algorithm subdirectory
 SOURCE_GROUP("Header Files\\utils" FILES    utils/random.h
+                                            utils/sleep.h
+                                            utils/color.h
                                             utils/threading.h)
  
 

@@ -45,12 +45,11 @@ namespace AnCO {
                 _base_node = base_node;
                 };
 
-            virtual void run(success fsuc = success()) {
+            virtual void run(algorithm::success& fsuc = algorithm::success()) {
                 _ant_paths.clear();
                 for (std::size_t i = 0; i < _n_ants; ++i) {
                     _t_ant_path path;                    
-                    typename aco_algorithm::_f_success suc_ = fsuc;
-                    bool ret = aco_algorithm::run(_graph, _base_node, _id, suc_, path, _max_steps);
+                    bool ret = aco_algorithm::run(_graph, _base_node, _id, fsuc, path, _max_steps);
                     if (ret) {
                         std::cout << "Col[" << _id << "] Ant[" << i << "] Succeded!!" << std::endl;
                         }

@@ -2,6 +2,7 @@
 #pragma once
 
 #include <array>
+#include <numeric>
 #include "../globals.h"
 #include "../colony/colony.h"
 
@@ -29,7 +30,7 @@ namespace AnCO {
                 // Actualización del vecindario
                 static void penalize_neighbourhood(_t_neighbourhood_map& _neighbourhood, const unsigned int& max_steps) {
                     _t_neighbourhood_map::iterator iter = _neighbourhood.begin();
-                    const unsigned int max_distance = max_steps -1;
+                    const int max_distance = max_steps -1;
                     for (; iter != _neighbourhood.end(); ) {
                         if (iter->second > max_distance) {
                             _neighbourhood.erase(iter++);
